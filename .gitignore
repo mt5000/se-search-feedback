@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+conda_env/
 develop-eggs/
 dist/
 downloads/
@@ -43,6 +44,8 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.xml
+.iml
 nosetests.xml
 coverage.xml
 *.cover
