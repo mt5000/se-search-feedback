@@ -54,9 +54,9 @@ else:
         accuracy_rating = st.slider("accuracy measure for Success Enablers", min_value=0, max_value=5)
         accuracy_input = st.text_area("Enter your thoughts here")
 
-    submitted = st.form_submit_button("Submit")
-    if submitted:
-        st.write("Thank you for your feedback!")
+        st.form_submit_button("Submit")
+        # if submitted:
+        #     st.write("Thank you for your feedback!")
 
 
     
