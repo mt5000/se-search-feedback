@@ -38,12 +38,12 @@ if df.empty:
 else:
     with st.form("feedback_form"):
         selected_row = get_random_row(df)
-        st.write("Query:", selected_row["Input"])
-        st.write("Success Enablers Returned:", selected_row["Success Enablers"])
-        st.write("AI Summary: ", selected_row["Summary"])
+        st.markdown("**Query**:", selected_row["Input"])
+        st.markdown("**Success Enablers Returned**:", selected_row["Success Enablers"])
+        st.markdown("**AI Summary**: ", selected_row["Summary"])
         employer = selected_row["Employer"]
-        st.write("Employer: ", selected_row["Employer"])
-        st.write("Journeys", selected_row["Journeys"])
+        st.markdown("**Employer**: ", selected_row["Employer"])
+        st.markdown("**Journeys**", selected_row["Journeys"])
         st.divider()
         st.markdown("1. **Relevancy**: Are the Success Enablers relevant to the query? ")
         relevancy_rating = st.slider("relevancy measure for Success Enablers", min_value=0, max_value=5)
