@@ -52,11 +52,11 @@ else:
         st.write(selected_row["Journeys"])
         st.divider()
         st.markdown("1. **Relevancy**: Are the Success Enablers relevant to the query? ")
-        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=5, defaultValue=3, key="rating")
+        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=5, defaultValue=3, key="relevancy")
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 1000))
         st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you "
                     "are not sure we offer them)?")
-        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=5, defaultValue=3, key="rating")
+        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=5, defaultValue=3, key="accuracy")
         accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 1000))
 
         submitted = st.form_submit_button("Submit")
