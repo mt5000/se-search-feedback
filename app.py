@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import random
+from streamlit_star_rating import st_star_rating
 
 @st.cache(allow_output_mutation=True)
 def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"):
@@ -51,7 +52,7 @@ else:
         st.write(selected_row["Journeys"])
         st.divider()
         st.markdown("1. **Relevancy**: Are the Success Enablers relevant to the query? ")
-        relevancy_rating = st.slider("relevancy measure for Success Enablers", min_value=0, max_value=5)
+        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=5, defaultValue=3, key="rating")
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 1000))
         st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you "
                     "are not sure we offer them)?")
