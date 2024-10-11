@@ -26,7 +26,7 @@ st.title("Success Enabler Search & Discovery Feedback Form")
 email = st.text_input("Email")
 
 st.write("You will be given a search query followed by the results. "
-             "Provide a rating (5 being best) and feedback, click 'submit' and you will "
+             "Provide a rating (10 being best) and feedback, click 'submit' and you will "
              "be given a another to rate. When you are finished, simply exit this page.")
 
 df = import_dataframe()
