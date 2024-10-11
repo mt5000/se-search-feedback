@@ -23,6 +23,8 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
 
 st.title("Success Enabler Search & Discovery Feedback Form")
 
+email = st.text_input("Email")
+
 st.write("You will be given a search query followed by the results. "
              "Provide a rating (5 being best) and feedback, click 'submit' and you will "
              "be given a another to rate. When you are finished, simply exit this page.")
@@ -52,15 +54,22 @@ else:
         st.write(selected_row["Journeys"])
         st.markdown("1. **Relevancy**: Are the Success Enablers relevant to the query? ")
         relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, defaultValue=5, key="relevancy")
-        relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 1000))
+        relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you "
                     "are not sure we offer them)?")
         accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, defaultValue=5, key="accuracy")
-        accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 1000))
-
+        accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+        if isinstance(employer, str):
+            st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
+            summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="employer_summary")
+            summary_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+        else:
+            st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
+            summary_rating = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+            summary_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
         submitted = st.form_submit_button("Submit")
         if submitted:
-            st.write("Thank you for your feedback!")
+            st.write(f"Form submitted from {email}")
 
 
     
