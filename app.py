@@ -62,7 +62,7 @@ else:
         if isinstance(employer, str):
             st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
             summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="employer_summary")
-            summary_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+            summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
             st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
             summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="summary_summary")
