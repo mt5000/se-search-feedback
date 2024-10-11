@@ -66,7 +66,7 @@ else:
         else:
             st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
             summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="summary_summary")
-            summary_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+            summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         submitted = st.form_submit_button("Submit")
         if submitted:
             st.write(f"Form submitted from {email}")
