@@ -3,7 +3,7 @@ import pandas as pd
 import random
 from streamlit_star_rating import st_star_rating
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data()
 def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv") -> pd.DataFrame:
     data = pd.read_csv(filepath)
     return data
