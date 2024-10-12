@@ -57,7 +57,7 @@ else:
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you "
                     "are not sure we offer them)?")
-        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, defaultValue=5, key="accuracy")
+        accuracy_rating = st.feedback(options="stars")
         accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
         if isinstance(employer, str):
             st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
