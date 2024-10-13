@@ -8,11 +8,11 @@ st.markdown(
     <style>
     .title {
         font-size: 2.5em;
-        color: #4CAF50;
+        color: #000000;
         text-align: center;
     }
     .email-input, .thoughts-input, .journeys-section {
-        border: 2px solid #4CAF50;
+        border: 2px solid #000000;
         border-radius: 5px;
         padding: 10px;
         margin-bottom: 20px;
