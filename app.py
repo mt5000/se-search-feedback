@@ -120,7 +120,7 @@ else:
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
 
-        submitted = st.form_submit_button("Submit", help="Click to submit your feedback", key="submit", on_click=None)
+        submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
         if submitted:
             st.markdown(f"<div class='main-content'>Form submitted from {email}</div>", unsafe_allow_html=True)
 
