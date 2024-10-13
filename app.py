@@ -3,10 +3,49 @@ import pandas as pd
 import random
 from streamlit_star_rating import st_star_rating
 
+st.markdown(
+    """
+    <style>
+    .title {
+        font-size: 2.5em;
+        color: #4CAF50;
+        text-align: center;
+    }
+    .email-input, .thoughts-input, .journeys-section {
+        border: 2px solid #4CAF50;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .main-content {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+    }
+    .submit-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.2em;
+    }
+    .submit-button:hover {
+        background-color: #45a049;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 @st.cache_data()
 def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv") -> pd.DataFrame:
     data = pd.read_csv(filepath)
     return data
+
 
 def get_random_row(df: pd.DataFrame) -> pd.Series:
     selected_index = random.choice(df.index)
@@ -20,14 +59,19 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
     return selected_row
 
 
+st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
-st.title("Success Enabler Search & Discovery Feedback Form")
+email = st.text_input("Email", key="email", help="Please enter your email address")
+st.markdown("<div class='email-input'></div>", unsafe_allow_html=True)
 
-email = st.text_input("Email")
-
-st.write("You will be given a search query followed by the results. "
-             "Provide a rating (10 being best) and feedback, click 'submit' and you will "
-             "be given a another to rate. When you are finished, simply exit this page.")
+st.markdown(
+    """
+    <div class='main-content'>
+    <p>You will be given a search query followed by the results. Provide a rating (10 being best) and feedback, click 'submit' and you will be given another to rate. When you are finished, simply exit this page.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 df = import_dataframe()
 
@@ -37,10 +81,11 @@ if 'selected_indices' in st.session_state:
     df = df.loc[remaining_indices]
 
 if df.empty:
-    st.write("All rows have been reviewed!")
+    st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 else:
     with st.form("feedback_form"):
         selected_row = get_random_row(df)
+        st.markdown("<div class='main-content'>", unsafe_allow_html=True)
         st.markdown("**Query**:")
         st.write(selected_row["Input"])
         st.markdown("**Success Enablers Returned**:")
@@ -51,25 +96,34 @@ else:
         st.markdown("**Employer**: ")
         st.write(selected_row["Employer"])
         st.markdown("**Journeys**")
+        st.markdown("<div class='journeys-section'></div>", unsafe_allow_html=True)
         st.write(selected_row["Journeys"])
+
         st.markdown("1. **Relevancy**: Are the Success Enablers relevant to the query? ")
         relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, defaultValue=5, key="relevancy")
+        st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
-        st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you "
-                    "are not sure we offer them)?")
-        accuracy_rating = st.feedback(options="stars")
+
+        st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you are not sure we offer them)?")
+        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, defaultValue=5, key="accuracy")
+        st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+
         if isinstance(employer, str):
             st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
             summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="employer_summary")
+            st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
             st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
             summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="summary_summary")
+            st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
-        submitted = st.form_submit_button("Submit")
+
+        submitted = st.form_submit_button("Submit", help="Click to submit your feedback", key="submit", on_click=None)
         if submitted:
-            st.write(f"Form submitted from {email}")
+            st.markdown(f"<div class='main-content'>Form submitted from {email}</div>", unsafe_allow_html=True)
+
 
 
     
