@@ -84,8 +84,7 @@ else:
     with st.form("feedback_form"):
         selected_row = get_random_row(df)
         st.markdown("<div class='main-content'>", unsafe_allow_html=True)
-        st.markdown("**Query**:")
-        st.write(selected_row["Input"])
+        st.markdown("**Query**:" + selected_row['Input'])
         st.markdown("**Success Enablers Returned**:")
         st.write(selected_row["Success Enablers"])
         st.markdown("**AI Summary**: ")
