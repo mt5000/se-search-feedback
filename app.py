@@ -11,6 +11,12 @@ st.markdown(
         color: #000000;
         text-align: center;
     }
+        .email-input, .thoughts-input {
+        border: 2px solid #4CAF50;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
     .main-content {
         background-color: #f8f9fa;
         padding: 20px;
@@ -58,8 +64,9 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
 
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
+st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 email = st.text_input("Email", key="email", help="Please enter your email address")
-st.markdown("<div class='email-input'></div>", unsafe_allow_html=True)
+st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 
 st.markdown(
     """
@@ -93,7 +100,6 @@ else:
         st.markdown("**Employer**: ")
         st.write(selected_row["Employer"])
         st.markdown("**Journeys**")
-        st.markdown("<div class='journeys-section'></div>", unsafe_allow_html=True)
         st.write(selected_row["Journeys"])
 
         relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, size=14, defaultValue=5, key="relevancy")
