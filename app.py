@@ -84,36 +84,35 @@ else:
     with st.form("feedback_form"):
         selected_row = get_random_row(df)
         st.markdown("<div class='main-content'>", unsafe_allow_html=True)
-        st.markdown("**Query**:" + selected_row['Input'])
+        st.markdown("**Query**: " + selected_row['Input'])
         st.markdown("**Success Enablers Returned**:")
         st.write(selected_row["Success Enablers"])
         st.markdown("**AI Summary**: ")
         st.write(selected_row["Summary"])
         employer = selected_row["Employer"]
-        st.markdown("**Employer**: ")
-        st.write(selected_row["Employer"])
+        st.markdown("**Employer**: " + employer)
         st.markdown("**Journeys**")
         st.write(selected_row["Journeys"])
 
-        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, size=14, defaultValue=5, key="relevancy")
+        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, size=18, defaultValue=5, key="relevancy")
         st.markdown("1. Are the Success Enablers relevant to the query? ")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, size=14, defaultValue=5, key="accuracy")
+        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, size=18, defaultValue=5, key="accuracy")
         st.markdown("2. Are there missing Success Enablers (even if you are not sure we offer them)?")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         if isinstance(employer, str):
-            summary_rating = st_star_rating("Summary Rating", maxValue=10, size=14, defaultValue=5, key="employer_summary")
+            summary_rating = st_star_rating("Summary Rating", maxValue=10, size=18, defaultValue=5, key="employer_summary")
             st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
-            summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="summary_summary")
+            summary_rating = st_star_rating("Summary Rating", maxValue=10, size=18, defaultValue=5, key="summary_summary")
             st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
