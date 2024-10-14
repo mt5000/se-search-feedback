@@ -14,8 +14,8 @@ st.markdown(
     .email-input, .thoughts-input, .journeys-section {
         border: 2px solid #000000;
         border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 20px;
+        padding: 5px;
+        margin-bottom: 10px;
     }
     .main-content {
         background-color: #f8f9fa;
@@ -41,7 +41,7 @@ st.markdown(
 )
 
 
-@st.cache_data()
+@st.cache_data
 def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv") -> pd.DataFrame:
     data = pd.read_csv(filepath)
     return data
