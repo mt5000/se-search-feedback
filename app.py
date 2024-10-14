@@ -94,18 +94,18 @@ else:
         st.write(selected_row["Journeys"])
 
         st.markdown("1. **Relevancy**: Are the Success Enablers relevant to the query? ")
-        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, defaultValue=5, key="relevancy")
+        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, size=14, defaultValue=5, key="relevancy")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
 
         st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you are not sure we offer them)?")
-        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, defaultValue=5, key="accuracy")
+        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, size=14, defaultValue=5, key="accuracy")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
 
         if isinstance(employer, str):
             st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
-            summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="employer_summary")
+            summary_rating = st_star_rating("Summary Rating", maxValue=10, size=14, defaultValue=5, key="employer_summary")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
