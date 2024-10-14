@@ -93,24 +93,24 @@ else:
         st.markdown("<div class='journeys-section'></div>", unsafe_allow_html=True)
         st.write(selected_row["Journeys"])
 
-        st.markdown("1. **Relevancy**: Are the Success Enablers relevant to the query? ")
         relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, size=14, defaultValue=5, key="relevancy")
+        st.markdown("1. Are the Success Enablers relevant to the query? ")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
 
-        st.markdown("2. **Accuracy**: Are there missing Success Enablers (even if you are not sure we offer them)?")
         accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, size=14, defaultValue=5, key="accuracy")
+        st.markdown("2. Are there missing Success Enablers (even if you are not sure we offer them)?")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
 
         if isinstance(employer, str):
-            st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
             summary_rating = st_star_rating("Summary Rating", maxValue=10, size=14, defaultValue=5, key="employer_summary")
+            st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
-            st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
             summary_rating = st_star_rating("Summary Rating", maxValue=10, defaultValue=5, key="summary_summary")
+            st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
 
