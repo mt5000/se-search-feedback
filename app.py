@@ -97,11 +97,13 @@ else:
         st.markdown("1. Are the Success Enablers relevant to the query? ")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, size=14, defaultValue=5, key="accuracy")
         st.markdown("2. Are there missing Success Enablers (even if you are not sure we offer them)?")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         if isinstance(employer, str):
             summary_rating = st_star_rating("Summary Rating", maxValue=10, size=14, defaultValue=5, key="employer_summary")
@@ -113,6 +115,7 @@ else:
             st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
         if submitted:
