@@ -90,6 +90,7 @@ else:
         st.markdown("**AI Summary**: ")
         st.write(selected_row["Summary"])
         employer = selected_row["Employer"]
+        st.write(employer)
         st.markdown("**Employer**: " + selected_row["Employer"])
         st.markdown("**Journeys**")
         st.write(selected_row["Journeys"])
