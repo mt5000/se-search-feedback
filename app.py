@@ -11,12 +11,6 @@ st.markdown(
         color: #000000;
         text-align: center;
     }
-    .email-input, .thoughts-input, .journeys-section {
-        border: 2px solid #000000;
-        border-radius: 5px;
-        padding: 5px;
-        margin-bottom: 10px;
-    }
     .main-content {
         background-color: #f8f9fa;
         padding: 20px;
