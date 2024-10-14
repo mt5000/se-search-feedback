@@ -29,6 +29,9 @@ st.markdown(
     .submit-button:hover {
         background-color: #45a049;
     }
+        .spacer {
+        margin-top: 40px; 
+    }
     </style>
     """,
     unsafe_allow_html=True
