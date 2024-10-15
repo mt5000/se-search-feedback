@@ -85,7 +85,7 @@ else:
         # st.markdown("<div class='main-content'>", unsafe_allow_html=True)
         st.markdown("**Query**: " + selected_row['Input'])
         st.markdown("**Success Enablers Returned**:")
-        success_enablers_list = selected_row['Success Enablers'].split(',')
+        success_enablers_list = str(selected_row['Success Enablers']).split(',')
         success_enablers = [f"{i+1}. {item}" for i, item in enumerate(success_enablers_list)]
         st.write(f"{success_enablers}")
         st.write("\n\n".join(success_enablers_list))
