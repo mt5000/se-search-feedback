@@ -103,10 +103,10 @@ else:
             journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
             st.write("\n".join(journeys))
         else:
-            st.write(journey)
+            st.write('None')
         with col2:
             with st.form("feedback_form"):
-                st.markdown("1. **Are the Success Enablers relevant to the query?** ")
+                st.markdown("**Are the Success Enablers relevant to the query?** ")
                 relevancy_rating = st.radio(
                 "Select your answer:",
                 options = ["Yes", "No", "Neutral"],
@@ -115,7 +115,7 @@ else:
                 relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-                st.markdown("2. **Are there missing Success Enablers (even if you are not sure we offer them)?**")
+                st.markdown("**Are there missing Success Enablers (even if you are not sure we offer them)?**")
                 accuracy_rating = st.radio(
                     "Select your answer:",
                     options=["Yes", "No", "Neutral"],
