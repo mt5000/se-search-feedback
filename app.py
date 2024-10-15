@@ -83,8 +83,8 @@ else:
     col1, col2 = st.columns([1, 2])
     with col1:
         selected_row = get_random_row(df)
-        # st.markdown("<div class='main-content'>", unsafe_allow_html=True)
         st.markdown("**Query**: " + selected_row['Input'])
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Success Enablers Returned**:")
         success_enablers_list = str(selected_row['Success Enablers']).split(',')
         success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
@@ -95,6 +95,7 @@ else:
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         employer = selected_row["Employer"]
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Journeys**")
         journey = selected_row["Journeys"]
         if isinstance(journey, str):
