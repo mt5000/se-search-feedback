@@ -93,9 +93,10 @@ else:
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("**Journeys**")
         st.write(selected_row["Journeys"])
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-        st.markdown("1. Are the Success Enablers relevant to the query? ")
-        relevancy_rating = response = st.radio(
+        st.markdown("1. **Are the Success Enablers relevant to the query?** ")
+        relevancy_rating = st.radio(
         "Select your answer:",
         options = ["Yes", "No", "Neutral"],
         index = None)
@@ -103,20 +104,29 @@ else:
         relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-        accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, size=18, defaultValue=5, key="accuracy")
         st.markdown("2. Are there missing Success Enablers (even if you are not sure we offer them)?")
+        accuracy_rating = st.radio(
+            "Select your answer:",
+            options=["Yes", "No", "Neutral"],
+            index=None)
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         if isinstance(employer, str):
-            summary_rating = st_star_rating("Summary Rating", maxValue=10, size=18, defaultValue=5, key="employer_summary")
             st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
+            summary_rating = st.radio(
+                "Select your answer:",
+                options=["Yes", "No", "Neutral"],
+                index=None)
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
-            summary_rating = st_star_rating("Summary Rating", maxValue=10, size=18, defaultValue=5, key="summary_summary")
             st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
+            summary_rating = st.radio(
+                "Select your answer:",
+                options=["Yes", "No", "Neutral"],
+                index=None)
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
