@@ -97,7 +97,6 @@ else:
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("**Journeys**")
         journey = selected_row["Journeys"]
-        st.write(journey)
         if isinstance(journey, str):
             journeys_list = str(journey).split(',')
             journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
