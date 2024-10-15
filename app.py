@@ -80,7 +80,7 @@ if 'selected_indices' in st.session_state:
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 else:
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([1, 2])
     with col1:
         selected_row = get_random_row(df)
         # st.markdown("<div class='main-content'>", unsafe_allow_html=True)
@@ -97,6 +97,7 @@ else:
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("**Journeys**")
         journey = selected_row["Journeys"]
+        st.write(journey)
         if isinstance(journey, str):
             journeys_list = str(journey.split(','))
             journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
