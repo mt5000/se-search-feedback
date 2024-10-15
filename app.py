@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import random
-from streamlit_star_rating import st_star_rating
 
 st.markdown(
     """
@@ -122,7 +121,7 @@ else:
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
-            st.markdown("**Summary**: Does the summary answer the query in a useful way and fulfill the user's intent?")
+            st.markdown("**Summary: Does the summary answer the query in a useful way and fulfill the user's intent?**")
             summary_rating = st.radio(
                 "Select your answer:",
                 options=["Yes", "No", "Neutral"],
