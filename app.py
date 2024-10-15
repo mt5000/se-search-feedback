@@ -94,16 +94,20 @@ else:
         st.markdown("**Journeys**")
         st.write(selected_row["Journeys"])
 
-        relevancy_rating = st_star_rating("Relevancy Rating", maxValue=10, size=18, defaultValue=5, key="relevancy")
+        relevancy_rating = response = st.radio(
+        "Select your answer:",
+        options=["Yes", "No", "Neutral"],
+        index=None  # This ensures no option is selected by default
+    )
         st.markdown("1. Are the Success Enablers relevant to the query? ")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-        relevancy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+        relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         accuracy_rating = st_star_rating("Accuracy Rating", maxValue=10, size=18, defaultValue=5, key="accuracy")
         st.markdown("2. Are there missing Success Enablers (even if you are not sure we offer them)?")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-        accuracy_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+        accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         if isinstance(employer, str):
