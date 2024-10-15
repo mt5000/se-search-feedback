@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
+from google.cloud import bigquery
 import random
+from constants import (question_1,
+                        question_2,
+                        question_3a,
+                        question_3b
+                        )
 
 st.markdown(
     """
@@ -43,6 +49,30 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
     return data
 
 
+def push_to_bigquery(df, user_email: str,
+                     project_id: str = "healthy-dragon-300820",
+                     dataset_id: str = "success_enabler_search_feedback",
+                     ):
+    client = bigquery.Client(project=project_id)
+    table_id: str = f"feedback_{user_email}"
+    table_ref = f"{project_id}.{dataset_id}.{table_id}"
+
+    # Configure the job
+    job_config = bigquery.LoadJobConfig()
+    job_config.autodetect = True
+    job_config.source_format = bigquery.SourceFormat.CSV
+    csv_data = df.to_csv(index=False)
+
+    job = client.load_table_from_file(
+        csv_data,
+        table_ref,
+        job_config=job_config
+    )
+    job.result()
+
+
+
+
 def get_random_row(df: pd.DataFrame) -> pd.Series:
     selected_index = random.choice(df.index)
     selected_row = df.loc[selected_index]
@@ -71,6 +101,8 @@ st.markdown(
 )
 
 df = import_dataframe()
+if 'feedback_list' not in st.session_state:
+    st.session_state.feedback_list = []
 
 # Exclude already selected rows
 if 'selected_indices' in st.session_state:
@@ -83,7 +115,8 @@ else:
     col1, col2 = st.columns([1, 2])
     with col1:
         selected_row = get_random_row(df)
-        st.markdown("**Query**: " + selected_row['Input'])
+        employer = selected_row["Employer"]
+        st.markdown("**Query**:  " + selected_row['Input'])
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Success Enablers Returned**:")
         success_enablers_list = str(selected_row['Success Enablers']).split(',')
@@ -93,10 +126,9 @@ else:
         st.markdown("**AI Summary**: ")
         st.write(selected_row["Summary"])
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        employer = selected_row["Employer"]
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        st.markdown("**Journeys**")
+        st.markdown("**Journeys:**")
         journey = selected_row["Journeys"]
         if isinstance(journey, str):
             journeys_list = str(journey).split(',')
@@ -106,7 +138,7 @@ else:
             st.write('None')
         with col2:
             with st.form("feedback_form"):
-                st.markdown("**Are the Success Enablers relevant to the query?** ")
+                st.markdown(question_1)
                 relevancy_rating = st.radio(
                 "Select your answer:",
                 options = ["Yes", "No", "Neutral"],
@@ -115,7 +147,7 @@ else:
                 relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-                st.markdown("**Are there missing Success Enablers (even if you are not sure we offer them)?**")
+                st.markdown(question_2)
                 accuracy_rating = st.radio(
                     "Select your answer:",
                     options=["Yes", "No", "Neutral"],
@@ -125,7 +157,7 @@ else:
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 if isinstance(employer, str):
-                    st.markdown("**Employer: If the summary mentions resources, does it make clear what the user should do?**")
+                    st.markdown(question_3a)
                     summary_rating = st.radio(
                         "Select your answer:",
                         options=["Yes", "No", "Neutral"],
@@ -133,7 +165,7 @@ else:
                     st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                     summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
                 else:
-                    st.markdown("**Summary: Does the summary answer the query in a useful way and fulfill the user's intent?**")
+                    st.markdown(question_3b)
                     summary_rating = st.radio(
                         "Select your answer:",
                         options=["Yes", "No", "Neutral"],
@@ -142,9 +174,26 @@ else:
                     summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
+                user_feedback = {"Query": selected_row['Input'],
+                                 "Success Enablers": selected_row['Success Enablers'],
+                                 "Employer": employer,
+                                 "Summary": selected_row['Summary'],
+                                 "Journeys": selected_row['Journeys'],
+                                 "Q1 Rating": relevancy_rating,
+                                 "Q1 Comments": relevancy_input,
+                                 "Q2 Rating": accuracy_rating,
+                                 "Q2 Comments": accuracy_input,
+                                 "Q3 Rating": summary_rating,}
+
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
                 if submitted:
+                    st.session_state.feedback_list.append(user_feedback)
                     st.markdown(f"<div class='main-content'>Form submitted</div>", unsafe_allow_html=True)
+
+        finished = st.button("I'm Done!")
+        if finished:
+            final_feedback = pd.DataFrame(st.session_state.feedback_list)
+            push_to_bigquery(final_feedback, email)
 
 
 
