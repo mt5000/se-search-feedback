@@ -96,9 +96,13 @@ else:
         employer = selected_row["Employer"]
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("**Journeys**")
-        journeys_list = str(selected_row['Journeys']).split(',')
-        journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
-        st.write("\n".join(journeys))
+        journey = selected_row["Journeys"]
+        if isinstance(journey, str):
+            journeys_list = str(journey.split(','))
+            journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
+            st.write("\n".join(journeys))
+        else:
+            st.write(journey)
         with col2:
             with st.form("feedback_form"):
                 st.markdown("1. **Are the Success Enablers relevant to the query?** ")
@@ -139,7 +143,7 @@ else:
 
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
                 if submitted:
-                    st.markdown(f"<div class='main-content'>Form submitted from {email}</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='main-content'>Form submitted</div>", unsafe_allow_html=True)
 
 
 
