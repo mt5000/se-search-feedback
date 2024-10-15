@@ -64,7 +64,7 @@ st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 st.markdown(
     """
     <div class='main-content'>
-    <p>You will be given a search query followed by the results. Provide a rating (10 being best) and feedback, click 'submit' and you will be given another to rate. When you are finished, simply exit this page.</p>
+    <p>You will be given a search query followed by the results. Provide a rating and feedback, click 'submit' and you will be given another to rate. When you are finished, simply exit this page.</p>
     </div>
     """,
     unsafe_allow_html=True
@@ -94,8 +94,10 @@ else:
         employer = selected_row["Employer"]
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("**Journeys**")
-        st.write(selected_row["Journeys"])
-        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+        journeys_list = str(selected_row['Journeys']).split(',')
+        journeys = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+        st.write("\n".join(journeys))
+        # st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         with col2:
             with st.form("feedback_form"):
                 st.markdown("1. **Are the Success Enablers relevant to the query?** ")
