@@ -80,7 +80,7 @@ if 'selected_indices' in st.session_state:
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 else:
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([2, 1])
     with col1:
         selected_row = get_random_row(df)
         # st.markdown("<div class='main-content'>", unsafe_allow_html=True)
