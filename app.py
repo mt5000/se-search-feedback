@@ -87,7 +87,7 @@ else:
         st.markdown("**Success Enablers Returned**:")
         success_enablers_list = selected_row['Success Enablers'].split(',')
         success_enablers = numbered_list = [f"{i+1}. {item}" for i, item in enumerate(success_enablers_list)]
-        st.write("\n".join(success_enablers_list))
+        st.write("\n\n".join(success_enablers_list))
         st.markdown("**AI Summary**: ")
         st.write(selected_row["Summary"])
         employer = selected_row["Employer"]
