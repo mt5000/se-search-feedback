@@ -83,7 +83,7 @@ if df.empty:
 else:
     with st.form("feedback_form"):
         selected_row = get_random_row(df)
-        st.markdown("<div class='main-content'>", unsafe_allow_html=True)
+        # st.markdown("<div class='main-content'>", unsafe_allow_html=True)
         st.markdown("**Query**: " + selected_row['Input'])
         st.markdown("**Success Enablers Returned**:")
         st.write(selected_row["Success Enablers"])
@@ -104,7 +104,7 @@ else:
         relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-        st.markdown("2. Are there missing Success Enablers (even if you are not sure we offer them)?")
+        st.markdown("2. **Are there missing Success Enablers (even if you are not sure we offer them)?**")
         accuracy_rating = st.radio(
             "Select your answer:",
             options=["Yes", "No", "Neutral"],
@@ -114,7 +114,7 @@ else:
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
         if isinstance(employer, str):
-            st.markdown("**Employer**: If the summary mentions resources, does it make clear what the user should do?")
+            st.markdown("**Employer: If the summary mentions resources, does it make clear what the user should do?**")
             summary_rating = st.radio(
                 "Select your answer:",
                 options=["Yes", "No", "Neutral"],
