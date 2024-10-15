@@ -89,15 +89,16 @@ else:
         success_enablers_list = str(selected_row['Success Enablers']).split(',')
         success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
         st.write("\n".join(success_enablers))
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**AI Summary**: ")
         st.write(selected_row["Summary"])
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         employer = selected_row["Employer"]
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("**Journeys**")
         journeys_list = str(selected_row['Journeys']).split(',')
         journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
         st.write("\n".join(journeys))
-        # st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         with col2:
             with st.form("feedback_form"):
                 st.markdown("1. **Are the Success Enablers relevant to the query?** ")
