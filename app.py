@@ -99,7 +99,7 @@ else:
         relevancy_rating = st.radio(
         "Select your answer:",
         options = ["Yes", "No", "Neutral"],
-        index = None)
+        index = None, key="relevancy")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
@@ -108,7 +108,7 @@ else:
         accuracy_rating = st.radio(
             "Select your answer:",
             options=["Yes", "No", "Neutral"],
-            index=None)
+            index=None, key="accuracy")
         st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
         accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
@@ -118,7 +118,7 @@ else:
             summary_rating = st.radio(
                 "Select your answer:",
                 options=["Yes", "No", "Neutral"],
-                index=None)
+                index=None, key="summary")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         else:
@@ -126,7 +126,7 @@ else:
             summary_rating = st.radio(
                 "Select your answer:",
                 options=["Yes", "No", "Neutral"],
-                index=None)
+                index=None, key="summary")
             st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
             summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
