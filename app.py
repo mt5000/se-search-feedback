@@ -96,46 +96,47 @@ else:
         st.markdown("**Journeys**")
         st.write(selected_row["Journeys"])
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        with st.form("feedback_form"):
-            st.markdown("1. **Are the Success Enablers relevant to the query?** ")
-            relevancy_rating = st.radio(
-            "Select your answer:",
-            options = ["Yes", "No", "Neutral"],
-            index = None, key="relevancy")
-            st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-            relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
-            st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-
-            st.markdown("2. **Are there missing Success Enablers (even if you are not sure we offer them)?**")
-            accuracy_rating = st.radio(
+        with col2:
+            with st.form("feedback_form"):
+                st.markdown("1. **Are the Success Enablers relevant to the query?** ")
+                relevancy_rating = st.radio(
                 "Select your answer:",
-                options=["Yes", "No", "Neutral"],
-                index=None, key="accuracy")
-            st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-            accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
-            st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+                options = ["Yes", "No", "Neutral"],
+                index = None, key="relevancy")
+                st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
+                relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+                st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-            if isinstance(employer, str):
-                st.markdown("**Employer: If the summary mentions resources, does it make clear what the user should do?**")
-                summary_rating = st.radio(
+                st.markdown("2. **Are there missing Success Enablers (even if you are not sure we offer them)?**")
+                accuracy_rating = st.radio(
                     "Select your answer:",
                     options=["Yes", "No", "Neutral"],
-                    index=None, key="summary")
+                    index=None, key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
-            else:
-                st.markdown("**Summary: Does the summary answer the query in a useful way and fulfill the user's intent?**")
-                summary_rating = st.radio(
-                    "Select your answer:",
-                    options=["Yes", "No", "Neutral"],
-                    index=None, key="summary")
-                st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
-            st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+                accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+                st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-            submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
-            if submitted:
-                st.markdown(f"<div class='main-content'>Form submitted from {email}</div>", unsafe_allow_html=True)
+                if isinstance(employer, str):
+                    st.markdown("**Employer: If the summary mentions resources, does it make clear what the user should do?**")
+                    summary_rating = st.radio(
+                        "Select your answer:",
+                        options=["Yes", "No", "Neutral"],
+                        index=None, key="summary")
+                    st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
+                    summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+                else:
+                    st.markdown("**Summary: Does the summary answer the query in a useful way and fulfill the user's intent?**")
+                    summary_rating = st.radio(
+                        "Select your answer:",
+                        options=["Yes", "No", "Neutral"],
+                        index=None, key="summary")
+                    st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
+                    summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+                st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+
+                submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
+                if submitted:
+                    st.markdown(f"<div class='main-content'>Form submitted from {email}</div>", unsafe_allow_html=True)
 
 
 
