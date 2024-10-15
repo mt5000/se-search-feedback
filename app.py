@@ -95,7 +95,7 @@ else:
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("**Journeys**")
         journeys_list = str(selected_row['Journeys']).split(',')
-        journeys = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+        journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
         st.write("\n".join(journeys))
         # st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         with col2:
