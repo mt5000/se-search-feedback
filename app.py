@@ -58,15 +58,13 @@ def push_to_bigquery(df, user_email: str,
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
     # Configure the job
-    job_config = bigquery.LoadJobConfig()
-    job_config.autodetect = True
-    job_config.source_format = bigquery.SourceFormat.CSV
-    csv_data = df.to_csv(index=False)
+    job_config = bigquery.LoadJobConfig(
+        autodetect=True,
+        write_disposition="WRITE_TRUNCATE"
+    )
 
-    job = client.load_table_from_file(
-        csv_data,
-        table_ref,
-        job_config=job_config
+    job = client.load_table_from_dataframe(
+        df, table_ref, job_config=job_config
     )
     job.result()
 
