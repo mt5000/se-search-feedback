@@ -167,8 +167,6 @@ else:
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               )
-                st.write(f"{type(accuracy_input)}")
-                st.write(f"{accuracy_input}")
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 if isinstance(employer, str):
@@ -191,7 +189,7 @@ else:
                                                   )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
-                user_feedback = {"Query": selected_row['Input'],
+                user_feedback = [{"Query": selected_row['Input'],
                                  "Success Enablers": selected_row['Success Enablers'],
                                  "Employer": employer,
                                  "Summary": selected_row['Summary'],
@@ -201,7 +199,7 @@ else:
                                  "Q2 Rating": accuracy_rating,
                                  "Q2 Comments": accuracy_input,
                                  "Q3 Rating": summary_rating,
-                                 "Q3 Comments": summary_input,}
+                                 "Q3 Comments": summary_input,}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=None)
                 if submitted:
