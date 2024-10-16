@@ -131,13 +131,14 @@ else:
         st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Journeys:**")
-        journey = selected_row["Journeys"]
-        if isinstance(journey, str):
+        if isinstance(selected_row['Journeys'], str):
+            journey = selected_row["Journeys"]
             journeys_list = str(journey).split(',')
             journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
             st.write("\n".join(journeys))
         else:
-            st.write('None')
+            journeys = "None"
+            st.write(journeys)
         with col2:
             with st.form("feedback_form"):
                 st.markdown(question_1)
