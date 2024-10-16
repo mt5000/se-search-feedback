@@ -190,6 +190,7 @@ else:
                                  "Q3 Rating": summary_rating,
                                  "Q3 Comments": summary_input,}
                 st.write(relevancy_input)
+                st.write(f"accuracy: {accuracy_input}")
                 st.write(summary_input)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
                 if submitted:
