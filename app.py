@@ -49,11 +49,6 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
     data = pd.read_csv(filepath)
     return data
 
-def clear_text():
-    st.session_state["relevancy_input"] = ""
-    st.session_state['accuracy_input'] = ""
-    st.session_state['summary_input'] = ""
-
 
 def push_to_bigquery(df, user_email: str,
                      project_id: str = "healthy-dragon-300820",
@@ -97,6 +92,9 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
+st.session_state["relevancy_input"] = ""
+st.session_state['accuracy_input'] = ""
+st.session_state['summary_input'] = ""
 # if 'relevancy_input' not in st.session_state:
 #     st.session_state.relevancy_input = ''
 # if 'accuracy_input' not in st.session_state:
@@ -211,7 +209,6 @@ else:
                                                   on_click=None)
                 if submitted:
                     st.session_state.feedback_list.append(user_feedback)
-                    clear_text()
                     st.markdown(f"<div class='main-content'>Form submitted</div>", unsafe_allow_html=True)
 
             finished = st.button("I'm Done!")
