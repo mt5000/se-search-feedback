@@ -60,18 +60,7 @@ def push_to_bigquery(rows: dict,
     client = bigquery.Client(credentials= credentials, project=project_id)
     table_id: str = "feedback_table_from_streamlit"
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
-
-    # Configure the job
-    # job_config = bigquery.LoadJobConfig(
-    #     autodetect=True,
-    #     write_disposition="WRITE_TRUNCATE"
-    # )
-
-    # job = client.load_table_from_dataframe(
-    #     df, table_ref, job_config=job_config
-    # )
     job = client.insert_rows_json(table_ref, rows)
-    job.result()
 
 
 
