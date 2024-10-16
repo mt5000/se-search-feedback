@@ -50,27 +50,27 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
     return data
 
 
-def push_to_bigquery(df, user_email: str,
+def push_to_bigquery(rows: dict,
                      project_id: str = "healthy-dragon-300820",
                      dataset_id: str = "success_enabler_search_feedback",
                      ):
     credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_credentials"]
     )
-    email_id = re.sub(r'@.*', '', user_email)
     client = bigquery.Client(credentials= credentials, project=project_id)
-    table_id: str = f"feedback_{email_id}"
+    table_id: str = "feedback_table_from_streamlit"
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
     # Configure the job
-    job_config = bigquery.LoadJobConfig(
-        autodetect=True,
-        write_disposition="WRITE_TRUNCATE"
-    )
+    # job_config = bigquery.LoadJobConfig(
+    #     autodetect=True,
+    #     write_disposition="WRITE_TRUNCATE"
+    # )
 
-    job = client.load_table_from_dataframe(
-        df, table_ref, job_config=job_config
-    )
+    # job = client.load_table_from_dataframe(
+    #     df, table_ref, job_config=job_config
+    # )
+    job = client.insert_rows_json(table_ref, rows)
     job.result()
 
 
@@ -205,13 +205,14 @@ else:
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=None)
                 if submitted:
-                    st.session_state.feedback_list.append(user_feedback)
+                    # st.session_state.feedback_list.append(user_feedback)
+                    push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Form submitted</div>", unsafe_allow_html=True)
 
-            finished = st.button("I'm Done!")
-            if finished:
-                final_feedback = pd.DataFrame(st.session_state.feedback_list)
-                push_to_bigquery(final_feedback, email)
+            # finished = st.button("I'm Done!")
+            # if finished:
+            #     final_feedback = pd.DataFrame(st.session_state.feedback_list)
+            #     push_to_bigquery(final_feedback, email)
 
 
 
