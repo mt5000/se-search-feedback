@@ -185,7 +185,7 @@ else:
                                  "Success Enablers": selected_row['Success Enablers'],
                                  "Employer": employer,
                                  "Summary": selected_row['Summary'],
-                                 "Journeys": selected_row['Journeys'],
+                                 "Journeys": journeys,
                                  "Q1 Rating": relevancy_rating,
                                  "Q1 Comments": relevancy_input,
                                  "Q2 Rating": accuracy_rating,
