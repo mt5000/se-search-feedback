@@ -187,8 +187,10 @@ else:
                                  "Q1 Comments": relevancy_input,
                                  "Q2 Rating": accuracy_rating,
                                  "Q2 Comments": accuracy_input,
-                                 "Q3 Rating": summary_rating,}
-
+                                 "Q3 Rating": summary_rating,
+                                 "Q3 Comments": summary_input,}
+                st.write(relevancy_input)
+                st.write(summary_input)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
                 if submitted:
                     st.session_state.feedback_list.append(user_feedback)
