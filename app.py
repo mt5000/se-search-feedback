@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import re
 from google.cloud import bigquery
 from google.oauth2 import service_account
 import random
@@ -57,8 +58,9 @@ def push_to_bigquery(df, user_email: str,
     credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_credentials"]
     )
+    email_id = re.sub(r'@.*', '', user_email)
     client = bigquery.Client(credentials= credentials, project=project_id)
-    table_id: str = f"feedback_{user_email}"
+    table_id: str = f"feedback_{email_id}"
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
     # Configure the job
