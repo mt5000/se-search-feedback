@@ -175,7 +175,7 @@ else:
                         options=["Yes", "No", "Neutral"],
                         index=None, key="summary")
                     st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                    summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+                    summary_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 user_feedback = {"Query": selected_row['Input'],
@@ -189,9 +189,7 @@ else:
                                  "Q2 Comments": accuracy_input,
                                  "Q3 Rating": summary_rating,
                                  "Q3 Comments": summary_input,}
-                st.write(relevancy_input)
                 st.write(f"accuracy: {accuracy_input}")
-                st.write(summary_input)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback", on_click=None)
                 if submitted:
                     st.session_state.feedback_list.append(user_feedback)
