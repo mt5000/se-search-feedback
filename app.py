@@ -22,7 +22,6 @@ st.markdown(
         background-color: #f8f9fa;
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
     }
     .submit-button {
         background-color: #4CAF50;
@@ -92,7 +91,8 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
-email = st.text_input("Email", key="email", help="Please enter your email address")
+if 'email' not in st.session_state:
+    st.session_state.email = st.text_input("Email", key="email", help="Please enter your email address")
 st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 
 st.markdown(
