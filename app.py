@@ -78,8 +78,8 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
 
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
-if 'email' not in st.session_state:
-    st.session_state.email = ''
+if 'name' not in st.session_state:
+    st.session_state.name = ''
 # if 'relevancy_input' not in st.session_state:
 #     st.session_state.relevancy_input = ''
 # if 'accuracy_input' not in st.session_state:
@@ -88,8 +88,8 @@ if 'email' not in st.session_state:
 #     st.session_state.summary_input = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
-email = st.text_input("Email", key="email", help="Please enter your email address",
-                      value=st.session_state.email)
+name = st.text_input("Email", key="name", help="Please enter your first and last name",
+                      value=st.session_state.name)
 st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 
 st.markdown(
@@ -192,7 +192,7 @@ else:
                                  "Q2 Comments": accuracy_input,
                                  "Q3 Rating": summary_rating,
                                  "Q3 Comments": summary_input,
-                                  "Name": email}]
+                                  "Name": name}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=None)
                 if submitted:
