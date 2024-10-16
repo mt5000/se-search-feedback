@@ -92,6 +92,13 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
+if 'accuracy_input' not in st.session_state:
+    st.session_state.accuracy_input = ''
+if 'relevancy_input' not in st.session_state:
+    st.session_state.relevancy_input = ''
+if 'summary_input' not in st.session_state:
+    st.session_state.summary_input = ''
+
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 email = st.text_input("Email", key="email", help="Please enter your email address",
                       value=st.session_state.email)
@@ -148,7 +155,8 @@ else:
                 options = ["Yes", "No", "Neutral"],
                 index = None, key="relevancy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+                relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000),
+                                               value=st.session_state.relevancy_input)
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 st.markdown(question_2)
@@ -157,7 +165,8 @@ else:
                     options=["Yes", "No", "Neutral"],
                     index=None, key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000))
+                accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000),
+                                              value=st.session_state.accuracy_input)
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 if isinstance(employer, str):
@@ -175,7 +184,8 @@ else:
                         options=["Yes", "No", "Neutral"],
                         index=None, key="summary")
                     st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                    summary_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000))
+                    summary_input = st.text_input("Enter your thoughts here", key=random.randint(0, 100000),
+                                                  value=st.session_state.summary_input)
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 user_feedback = {"Query": selected_row['Input'],
