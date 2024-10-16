@@ -92,12 +92,12 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
-if 'relevancy_input' not in st.session_state:
-    st.session_state.relevancy_input = ''
-if 'accuracy_input' not in st.session_state:
-    st.session_state.accuracy_input = ''
-if 'summary_input' not in st.session_state:
-    st.session_state.summary_input = ''
+# if 'relevancy_input' not in st.session_state:
+#     st.session_state.relevancy_input = ''
+# if 'accuracy_input' not in st.session_state:
+#     st.session_state.accuracy_input = ''
+# if 'summary_input' not in st.session_state:
+#     st.session_state.summary_input = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 email = st.text_input("Email", key="email", help="Please enter your email address",
@@ -156,7 +156,7 @@ else:
                 index = None, key="relevancy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 relevancy_input = st.text_area("Enter your thoughts here", key="relevancy_input",
-                                               value=st.session_state.relevancy_input)
+                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 st.markdown(question_2)
@@ -166,7 +166,7 @@ else:
                     index=None, key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
-                                              value=st.session_state.accuracy_input)
+                                              )
                 st.write(f"{type(accuracy_input)}")
                 st.write(f"{accuracy_input}")
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
@@ -179,7 +179,7 @@ else:
                         index=None, key="summary")
                     st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                     summary_input = st.text_area("Enter your thoughts here", key="summary_input",
-                                                 value=st.session_state.summary_input)
+                                                 )
                 else:
                     st.markdown(question_3b)
                     summary_rating = st.radio(
@@ -206,9 +206,6 @@ else:
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=None)
                 if submitted:
-                    st.session_state.relevancy_input = relevancy_input
-                    st.session_state.summary_input = summary_input
-                    st.session_state.accuracy_input = accuracy_input
                     st.session_state.feedback_list.append(user_feedback)
                     st.markdown(f"<div class='main-content'>Form submitted</div>", unsafe_allow_html=True)
 
