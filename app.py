@@ -92,9 +92,6 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
-st.session_state["relevancy_input"] = ""
-st.session_state['accuracy_input'] = ""
-st.session_state['summary_input'] = ""
 # if 'relevancy_input' not in st.session_state:
 #     st.session_state.relevancy_input = ''
 # if 'accuracy_input' not in st.session_state:
