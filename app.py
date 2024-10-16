@@ -114,7 +114,10 @@ else:
     col1, col2 = st.columns([1, 2])
     with col1:
         selected_row = get_random_row(df)
-        employer = selected_row["Employer"]
+        if isinstance(selected_row['Employer'], str):
+            employer = selected_row["Employer"]
+        else:
+            employer = "None"
         st.markdown("**Query**:  " + selected_row['Input'])
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Success Enablers Returned**:")
