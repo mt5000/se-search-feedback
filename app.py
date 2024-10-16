@@ -155,7 +155,7 @@ else:
                 options = ["Yes", "No", "Neutral"],
                 index = None, key="relevancy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                relevancy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000),
+                relevancy_input = st.text_area("Enter your thoughts here", key="relevancy_input",
                                                value=st.session_state.relevancy_input)
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
@@ -165,7 +165,7 @@ else:
                     options=["Yes", "No", "Neutral"],
                     index=None, key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                accuracy_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000),
+                accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               value=st.session_state.accuracy_input)
                 st.write(f"{type(accuracy_input)}")
                 st.write(f"{accuracy_input}")
@@ -178,7 +178,7 @@ else:
                         options=["Yes", "No", "Neutral"],
                         index=None, key="summary")
                     st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                    summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000),
+                    summary_input = st.text_area("Enter your thoughts here", key="summary_input",
                                                  value=st.session_state.summary_input)
                 else:
                     st.markdown(question_3b)
