@@ -55,7 +55,7 @@ def push_to_bigquery(df, user_email: str,
                      dataset_id: str = "success_enabler_search_feedback",
                      ):
     credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"]
+        st.secrets["gcp_credentials"]
     )
     client = bigquery.Client(credentials= credentials, project=project_id)
     table_id: str = f"feedback_{user_email}"
