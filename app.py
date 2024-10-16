@@ -194,10 +194,9 @@ else:
                                  "Q3 Comments": summary_input,
                                   "Name": name}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                                  on_click=None)
+                                                  on_click=push_to_bigquery(user_feedback))
                 if submitted:
-                    push_to_bigquery(user_feedback)
-                    st.markdown(f"<div class='main-content'>Form submitted</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='main-content'>Thanks! Try Another</div>", unsafe_allow_html=True)
 
 
     
