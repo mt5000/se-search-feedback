@@ -49,6 +49,11 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
     data = pd.read_csv(filepath)
     return data
 
+def clear_text():
+    st.session_state["relevancy_input"] = ""
+    st.session_state['accuracy_input'] = ""
+    st.session_state['summary_input'] = ""
+
 
 def push_to_bigquery(df, user_email: str,
                      project_id: str = "healthy-dragon-300820",
@@ -202,11 +207,11 @@ else:
                                  "Q2 Comments": accuracy_input,
                                  "Q3 Rating": summary_rating,
                                  "Q3 Comments": summary_input,}
-                st.write(f"accuracy: {accuracy_input}")
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=None)
                 if submitted:
                     st.session_state.feedback_list.append(user_feedback)
+                    clear_text()
                     st.markdown(f"<div class='main-content'>Form submitted</div>", unsafe_allow_html=True)
 
             finished = st.button("I'm Done!")
