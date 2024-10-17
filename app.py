@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import streamlit as st
 import pandas as pd
 from google.cloud import bigquery
@@ -5,8 +7,7 @@ from google.oauth2 import service_account
 import random
 from constants import (question_1,
                         question_2,
-                        question_3a,
-                        question_3b
+                        question_3,
                         )
 
 st.markdown(
@@ -158,33 +159,24 @@ else:
                 st.markdown(question_2)
                 accuracy_rating = st.radio(
                     "Select your answer:",
-                    options=["Yes", "No", "Neutral"],
+                    options=options, format_func = format_func,
                     index=None, key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+                st.markdown(question_3)
+                summary_rating = st.radio(
+                    "Select your answer:",
+                    options=options, format_func = format_func,
+                    index=None, key="summary")
+                st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
+                summary_input = st.text_area("Enter your thoughts here", key="summary_input",
+                                             )
 
-                if isinstance(employer, str):
-                    st.markdown(question_3a)
-                    summary_rating = st.radio(
-                        "Select your answer:",
-                        options=["Yes", "No", "Neutral"],
-                        index=None, key="summary")
-                    st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                    summary_input = st.text_area("Enter your thoughts here", key="summary_input",
-                                                 )
-                else:
-                    st.markdown(question_3b)
-                    summary_rating = st.radio(
-                        "Select your answer:",
-                        options=["Yes", "No", "Neutral"],
-                        index=None, key="summary")
-                    st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                    summary_input = st.text_area("Enter your thoughts here", key=random.randint(0, 100000),
-                                                  )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-
+                current_datetime = datetime.now()
+                time = current_datetime.strftime("%H:%M")
                 user_feedback = [{"Query": selected_row['Input'],
                                  "Success Enablers": selected_row['Success Enablers'],
                                  "Employer": employer,
@@ -196,7 +188,8 @@ else:
                                  "Q2 Accuracy Comments": accuracy_input,
                                  "Q3 Summary Rating": summary_rating,
                                  "Q3 Summary Comments": summary_input,
-                                  "Name": name}]
+                                  "Name": name,
+                                  "Time Submitted": time,}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=push_to_bigquery(user_feedback))
                 if submitted:
