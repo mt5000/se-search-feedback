@@ -121,11 +121,15 @@ else:
             employer = selected_row["Employer"]
         else:
             employer = "None"
+        if isinstance(selected_row['Success Enablers'], str):
+            se = selected_row['Success Enablers']
+            success_enablers_list = str(se).split(',')
+            success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+        else:
+            success_enablers = "None"
         st.markdown("**Query**:  " + selected_row['Input'])
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Success Enablers Returned**:")
-        success_enablers_list = str(selected_row['Success Enablers']).split(',')
-        success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
         st.write("\n".join(success_enablers))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**AI Summary**: ")
@@ -178,7 +182,7 @@ else:
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y%m%d%H%M")
                 user_feedback = [{"Query": selected_row['Input'],
-                                 "Success Enablers": selected_row['Success Enablers'],
+                                 "Success Enablers": success_enablers,
                                  "Employer": employer,
                                  "Summary": selected_row['Summary'],
                                  "Journeys": journeys,
