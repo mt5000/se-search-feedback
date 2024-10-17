@@ -90,12 +90,7 @@ def format_func(option):
 
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
-if 'name' not in st.session_state:
-    st.session_state.name = ''
 
-st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
-name = st.text_input("Email", key="name_input", help="Please enter your first and last name",
-                      value=st.session_state.name, on_change=update_text)
 st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 
 st.markdown(
@@ -152,6 +147,10 @@ else:
         st.write(journeys)
         with col2:
             with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
+                if 'name' not in st.session_state:
+                    st.session_state.name = ''
+                name = st.text_input("Email", key="name_input", help="Please enter your first and last name",
+                                     value=st.session_state.name, on_change=update_text)
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
