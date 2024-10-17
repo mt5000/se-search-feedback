@@ -176,7 +176,7 @@ else:
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
-                time = current_datetime
+                time = current_datetime.strftime("%Y%m%d%H%M")
                 user_feedback = [{"Query": selected_row['Input'],
                                  "Success Enablers": selected_row['Success Enablers'],
                                  "Employer": employer,
