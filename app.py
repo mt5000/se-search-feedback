@@ -49,6 +49,10 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
     return data
 
 
+def update_text():
+    st.session_state.name = st.session_state.text_input
+
+
 def push_to_bigquery(rows: dict,
                      project_id: str = "healthy-dragon-300820",
                      dataset_id: str = "success_enabler_search_feedback",
@@ -86,12 +90,12 @@ if 'name' not in st.session_state:
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 name = st.text_input("Email", key="name", help="Please enter your first and last name",
-                      value=st.session_state.name)
+                      value=st.session_state.name, on_change=update_text)
 st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 
 st.markdown(
     """
-    <p>You will be given a search query followed by the results. Provide a rating and feedback, click 'submit' and you will be given another to rate. When you are finished, click <b>I'm Done!</b> at the bottom of the page.</p>
+    <p>You will be given a search query followed by the results. Provide a rating and feedback, click 'submit' and you will be given another to rate. When you are finished, simply close this page</p>
     """,
     unsafe_allow_html=True
 )
@@ -138,7 +142,7 @@ else:
             journeys = "None"
             st.write(journeys)
         with col2:
-            with st.form("feedback_form"):
+            with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
                 st.markdown(question_1)
                 options = [-1, 0, 1]
                 labels = ["Yes", "No", "Neutral"]
@@ -186,17 +190,17 @@ else:
                                  "Employer": employer,
                                  "Summary": selected_row['Summary'],
                                  "Journeys": journeys,
-                                 "Q1 Rating": relevancy_rating,
-                                 "Q1 Comments": relevancy_input,
-                                 "Q2 Rating": accuracy_rating,
-                                 "Q2 Comments": accuracy_input,
-                                 "Q3 Rating": summary_rating,
-                                 "Q3 Comments": summary_input,
+                                 "Q1 Relevancy Rating": relevancy_rating,
+                                 "Q1 Relevancy Comments": relevancy_input,
+                                 "Q2 Accuracy Rating": accuracy_rating,
+                                 "Q2 Accuracy Comments": accuracy_input,
+                                 "Q3 Summary Rating": summary_rating,
+                                 "Q3 Summary Comments": summary_input,
                                   "Name": name}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=push_to_bigquery(user_feedback))
                 if submitted:
-                    st.markdown(f"<div class='main-content'>Thanks! Try Another</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
 
 
     
