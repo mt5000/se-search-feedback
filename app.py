@@ -75,17 +75,14 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
 
     return selected_row
 
+def format_func(option):
+    return labels[options.index(option)]
+
 
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
 if 'name' not in st.session_state:
     st.session_state.name = ''
-# if 'relevancy_input' not in st.session_state:
-#     st.session_state.relevancy_input = ''
-# if 'accuracy_input' not in st.session_state:
-#     st.session_state.accuracy_input = ''
-# if 'summary_input' not in st.session_state:
-#     st.session_state.summary_input = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 name = st.text_input("Email", key="name", help="Please enter your first and last name",
@@ -100,6 +97,7 @@ st.markdown(
 )
 
 df = import_dataframe()
+
 if 'feedback_list' not in st.session_state:
     st.session_state.feedback_list = []
 
@@ -142,10 +140,12 @@ else:
         with col2:
             with st.form("feedback_form"):
                 st.markdown(question_1)
+                options = [-1, 0, 1]
+                labels = ["Yes", "No", "Neutral"]
                 relevancy_rating = st.radio(
                 "Select your answer:",
-                options = ["Yes", "No", "Neutral"],
-                index = None, key="relevancy")
+                options = options, format_func = format_func,
+                key="relevancy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 relevancy_input = st.text_area("Enter your thoughts here", key="relevancy_input",
                                                )
