@@ -61,12 +61,15 @@ def push_to_bigquery(rows: dict,
     credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_credentials"]
     )
-    client = bigquery.Client(credentials= credentials, project=project_id)
-    table_id: str = "streamlit_app_feedback"
-    table_ref = f"{project_id}.{dataset_id}.{table_id}"
-    errors = client.insert_rows_json(table_ref, rows)
-    if errors:
-        st.write(f"Errors occurred while inserting rows: {errors}")
+    try:
+        client = bigquery.Client(credentials= credentials, project=project_id)
+        table_id: str = "streamlit_app_feedback"
+        table_ref = f"{project_id}.{dataset_id}.{table_id}"
+        errors = client.insert_rows_json(table_ref, rows)
+        if errors:
+            st.write(f"Errors occurred while inserting rows: {errors}")
+    except Exception as e:
+        st.write(e)
 
 
 
