@@ -145,7 +145,7 @@ else:
         with col2:
             with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
                 st.markdown(question_1)
-                options = [-1, 0, 1]
+                options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
                 relevancy_rating = st.radio(
                 "Select your answer:",
@@ -159,7 +159,7 @@ else:
                 st.markdown(question_2)
                 accuracy_rating = st.radio(
                     "Select your answer:",
-                    options=options, format_func = format_func,
+                    options=[-1, 1, 0], format_func = format_func,
                     index=None, key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
@@ -176,7 +176,7 @@ else:
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
-                time = current_datetime.strftime("%H:%M")
+                time = current_datetime.strftime("%Y%m%d%H%M")
                 user_feedback = [{"Query": selected_row['Input'],
                                  "Success Enablers": selected_row['Success Enablers'],
                                  "Employer": employer,
