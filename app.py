@@ -186,7 +186,7 @@ else:
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
                 user_feedback = [{"Query": selected_row['Input'],
-                                 "Success Enablers": success_enablers,
+                                 "Success Enablers": ', '.join(success_enablers),
                                  "Employer": employer,
                                  "Summary": selected_row['Summary'],
                                  "Journeys": journeys,
