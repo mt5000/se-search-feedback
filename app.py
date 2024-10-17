@@ -64,8 +64,9 @@ def push_to_bigquery(rows: dict,
     client = bigquery.Client(credentials= credentials, project=project_id)
     table_id: str = "streamlit_app_feedback"
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
-    job = client.insert_rows_json(table_ref, rows)
-
+    errors = client.insert_rows_json(table_ref, rows)
+    if errors:
+        st.write(f"Errors occurred while inserting rows: {errors}")
 
 
 
@@ -180,7 +181,7 @@ else:
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
-                time = current_datetime.strftime("%Y%m%d%H%M")
+                time = current_datetime.strftime("%Y-%m-%d %H:%M")
                 user_feedback = [{"Query": selected_row['Input'],
                                  "Success Enablers": success_enablers,
                                  "Employer": employer,
