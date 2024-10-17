@@ -50,7 +50,7 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
 
 
 def update_text():
-    st.session_state.name = st.session_state.text_input
+    st.session_state.name = st.session_state.name_input
 
 
 def push_to_bigquery(rows: dict,
@@ -89,7 +89,7 @@ if 'name' not in st.session_state:
     st.session_state.name = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
-name = st.text_input("Email", key="name", help="Please enter your first and last name",
+name = st.text_input("Email", key="name_input", help="Please enter your first and last name",
                       value=st.session_state.name, on_change=update_text)
 st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 
