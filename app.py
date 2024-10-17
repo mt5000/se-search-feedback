@@ -150,7 +150,7 @@ else:
                 if 'name' not in st.session_state:
                     st.session_state.name = ''
                 name = st.text_input("Email", key="name_input", help="Please enter your first and last name",
-                                     value=st.session_state.name, on_change=update_text)
+                                     value=st.session_state.name)
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
@@ -200,6 +200,7 @@ else:
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                                   on_click=push_to_bigquery(user_feedback))
                 if submitted:
+                    update_text()
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
 
 
