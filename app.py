@@ -61,7 +61,7 @@ def push_to_bigquery(rows: dict,
         st.secrets["gcp_credentials"]
     )
     client = bigquery.Client(credentials= credentials, project=project_id)
-    table_id: str = "feedback_table_from_streamlit"
+    table_id: str = "streamlit_app_feedback"
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
     job = client.insert_rows_json(table_ref, rows)
 
