@@ -146,10 +146,10 @@ else:
             journey = selected_row["Journeys"]
             journeys_list = str(journey).split(',')
             journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
-            st.write("\n".join(journeys))
+            journeys = "\n".join(journeys)
         else:
             journeys = "None"
-            st.write(journeys)
+        st.write(journeys)
         with col2:
             with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
                 st.markdown(question_1)
