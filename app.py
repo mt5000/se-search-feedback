@@ -57,7 +57,7 @@ def update_text():
 def check_input_before_submission(feedback: list, user_name: str):
     feedback_dict = feedback[0]
     st.write(feedback_dict['Q1 Relevancy Rating'])
-    if not isinstance(feedback_dict['Q1 Relevancy Rating'], int) and not isinstance(feedback_dict['Q2 Accuracy Rating'], int) and not isinstance(feedback_dict['Q3 Relevancy Rating'], int):
+    if not isinstance(feedback_dict['Q1 Relevancy Rating'], int) and not isinstance(feedback_dict['Q2 Accuracy Rating'], int) and not isinstance(feedback_dict['Q3 Summary Rating'], int):
         st.subheader(f"Hey {user_name}, You have to give a rating first!")
         submitted = False
         return submitted
