@@ -155,22 +155,24 @@ elif st.session_state.name != '':
                 relevancy_rating = st.radio(
                 "Select your answer:",
                 options = options, format_func = format_func,
-                key="relevancy")
+                index=None, key="relevancy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 relevancy_input = st.text_area("Enter your thoughts here", key="relevancy_input",
                                                )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 st.markdown(question_2)
+                labels = ["No", "Yes", "Neutral"]
                 accuracy_rating = st.radio(
                     "Select your answer:",
-                    options=[-1, 1, 0], format_func = format_func,
+                    options=options, format_func = format_func,
                     index=None, key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 st.markdown(question_3)
+                labels = ["Yes", "No", "Neutral"]
                 summary_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
