@@ -6,9 +6,9 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import random
 from constants import (question_1,
-                        question_2,
-                        question_3,
-                        )
+                       question_2,
+                       question_3,
+                       )
 
 st.markdown(
     """
@@ -107,9 +107,6 @@ st.markdown(
 
 df = import_dataframe()
 
-if 'feedback_list' not in st.session_state:
-    st.session_state.feedback_list = []
-
 # Exclude already selected rows
 if 'selected_indices' in st.session_state:
     remaining_indices = df.index.difference(st.session_state['selected_indices'])
@@ -117,7 +114,7 @@ if 'selected_indices' in st.session_state:
 
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
-else:
+elif st.session_state.name != '':
     col1, col2 = st.columns([1, 2])
     with col1:
         selected_row = get_random_row(df)
@@ -202,6 +199,7 @@ else:
                                                   on_click=push_to_bigquery(user_feedback))
                 if submitted:
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
-
+else:
+    st.subheader("Enter Your Name To Get Started")
 
     
