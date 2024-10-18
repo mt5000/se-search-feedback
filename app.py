@@ -54,6 +54,13 @@ def update_text():
     st.session_state.name = st.session_state.name_input
 
 
+def check_input_before_submission(feedback: list, user_name: str):
+    feedback_dict = feedback[0]
+    if not isinstance(feedback_dict['Q1 Relevancy Rating'], int) and not isinstance(feedback_dict['Q2 Accuracy Rating'], int) and not isinstance(feedback_dict['Q3 Relevancy Rating'], int):
+        st.subheader(f"Hey {user_name}, You have to give a rating first!")
+        submitted = False
+        return submitted
+
 def push_to_bigquery(rows: dict,
                      project_id: str = "healthy-dragon-300820",
                      dataset_id: str = "success_enabler_search_feedback",
@@ -199,8 +206,9 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time,}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                                  on_click=push_to_bigquery(user_feedback))
+                                                  on_click=check_input_before_submission(user_feedback, name))
                 if submitted:
+                    push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
 else:
     st.subheader("Enter Your Name To Get Started")
