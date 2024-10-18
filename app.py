@@ -133,10 +133,10 @@ elif st.session_state.name != '':
         st.markdown("**Success Enablers Returned**:")
         st.write("\n".join(success_enablers))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+        st.markdown("**Employer**: " + str(selected_row["Employer"]))
+        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**AI Summary**: ")
         st.write(selected_row["Summary"])
-        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        st.markdown("**Employer**: " + str(selected_row["Employer"]))
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Journeys:**")
         if isinstance(selected_row['Journeys'], str):
