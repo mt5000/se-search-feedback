@@ -157,7 +157,6 @@ elif st.session_state.name != '':
         st.write(journeys)
         with col2:
             with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
-                st.write(f"query: {selected_row['Input']}")
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
@@ -207,7 +206,7 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time,}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                                  on_click=check_input_before_submission(user_feedback, name))
+                                                 )
                 if submitted:
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
