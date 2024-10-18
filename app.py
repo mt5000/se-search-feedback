@@ -149,6 +149,7 @@ elif st.session_state.name != '':
         st.write(journeys)
         with col2:
             with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
+                st.write(f"query: {selected_row['Input']}")
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
