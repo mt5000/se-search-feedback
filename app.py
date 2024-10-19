@@ -217,8 +217,7 @@ elif st.session_state.name != '':
                     if relevancy_rating and accuracy_rating and summary_rating:
                         push_to_bigquery(user_feedback)
                         st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
-                    else:
-                        st.subheader(f"Hey {name}, you have to rate all three!")
+
 else:
     st.subheader("Enter Your Name To Get Started")
 
