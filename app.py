@@ -209,10 +209,9 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time,}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                                 on_click=check_input_before_submission(relevancy_rating,
-                                                                                        accuracy_rating,
-                                                                                        summary_rating,
-                                                                                        name))
+                                                 on_click=check_input_before_submission,
+                                                  args=(relevancy_rating, accuracy_rating,
+                                                        summary_rating, name))
                 if submitted:
                     # if relevancy_rating and accuracy_rating and summary_rating:
                     push_to_bigquery(user_feedback)
