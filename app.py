@@ -59,9 +59,11 @@ def check_input_before_submission(q1_rating: int | None,
                                   q3_rating: int | None,
                                   user_name: str):
     if not (q1_rating and q2_rating and q3_rating):
-        st.subheader(f"Hey {user_name}, You have to give a rating first!")
-        submitted = False
-        return submitted
+        return False
+    else:
+        return True
+
+
 
 
 def push_to_bigquery(rows: dict,
@@ -216,6 +218,8 @@ elif st.session_state.name != '':
                     # if relevancy_rating and accuracy_rating and summary_rating:
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
+                else:
+                    st.subheader(f"Hey {name}, You have to give a rating first!")
 
 else:
     st.subheader("Enter Your Name To Get Started")
