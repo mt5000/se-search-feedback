@@ -58,7 +58,7 @@ def check_input_before_submission(q1_rating: int | None,
                                   q2_rating: int | None,
                                   q3_rating: int | None,
                                   user_name: str):
-    if not (q1_rating and q2_rating and q3_rating):
+    if not q1_rating and q2_rating and q3_rating:
         st.subheader(f"Hey {user_name}, you have to give ratings first!")
         st.session_state.submitted = False
     else:
