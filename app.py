@@ -157,7 +157,7 @@ elif st.session_state.name != '':
                 relevancy_rating = st.radio(
                 "Select your answer:",
                 options = options, format_func = format_func,
-                index=None, key="relevancy")
+                key="relevancy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 relevancy_input = st.text_area("Enter your thoughts here", key="relevancy_input",
                                                )
@@ -168,7 +168,7 @@ elif st.session_state.name != '':
                 accuracy_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
-                    index=None, key="accuracy")
+                    key="accuracy")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               )
@@ -178,7 +178,7 @@ elif st.session_state.name != '':
                 summary_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
-                    index=None, key="summary")
+                    key="summary")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 summary_input = st.text_area("Enter your thoughts here", key="summary_input",
                                              )
@@ -199,15 +199,14 @@ elif st.session_state.name != '':
                                  "Q3 Summary Comments": summary_input,
                                   "Name": name,
                                   "Time Submitted": time,}]
-                if relevancy_rating and accuracy_rating and summary_rating:
-                    submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                      )
-                    if submitted:
+                submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
+                                    )
+                if submitted:
                     # if relevancy_rating and accuracy_rating and summary_rating:
-                        push_to_bigquery(user_feedback)
-                        st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
-                else:
-                    st.subheader(f"Hey {name}, You have to give a rating first!")
+                    push_to_bigquery(user_feedback)
+                    st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
+                # else:
+                #     st.subheader(f"Hey {name}, You have to give a rating first!")
 
 else:
     st.subheader("Enter Your Name To Get Started")
