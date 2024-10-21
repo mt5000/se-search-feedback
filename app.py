@@ -53,8 +53,9 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
 def update_text():
     st.session_state.name = st.session_state.name_input
 
-def count_submits(count: int):
-    return count + 1
+
+# def count_submits(count: int = counter):
+#     return count + 1
 
 
 def push_to_bigquery(rows: dict,
@@ -205,7 +206,7 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time,}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                    on_click=count_submits(counter))
+                                    on_click=lambda x: counter + 1)
                 if submitted:
                     # if relevancy_rating and accuracy_rating and summary_rating:
                     push_to_bigquery(user_feedback)
