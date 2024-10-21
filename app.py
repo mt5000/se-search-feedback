@@ -59,9 +59,10 @@ def check_input_before_submission(q1_rating: int | None,
                                   q3_rating: int | None,
                                   user_name: str):
     if not (q1_rating and q2_rating and q3_rating):
-        return False
+        st.subheader(f"Hey {user_name}, you have to give ratings first!")
+        st.session_state.submitted = False
     else:
-        return True
+        st.session_state.submitted = True
 
 
 
@@ -124,6 +125,9 @@ df = import_dataframe()
 if 'selected_indices' in st.session_state:
     remaining_indices = df.index.difference(st.session_state['selected_indices'])
     df = df.loc[remaining_indices]
+
+if 'submitted' not in st.session_state:
+    st.session_state.submitted = False
 
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
@@ -210,16 +214,16 @@ elif st.session_state.name != '':
                                  "Q3 Summary Comments": summary_input,
                                   "Name": name,
                                   "Time Submitted": time,}]
-                submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
+                st.form_submit_button("Submit", help="Click to submit your feedback",
                                                  on_click=check_input_before_submission,
                                                   args=(relevancy_rating, accuracy_rating,
                                                         summary_rating, name))
-                if submitted:
+                if st.session_state.submitted:
                     # if relevancy_rating and accuracy_rating and summary_rating:
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
-                else:
-                    st.subheader(f"Hey {name}, You have to give a rating first!")
+                # else:
+                #     st.subheader(f"Hey {name}, You have to give a rating first!")
 
 else:
     st.subheader("Enter Your Name To Get Started")
