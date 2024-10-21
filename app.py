@@ -54,8 +54,8 @@ def update_text():
     st.session_state.name = st.session_state.name_input
 
 
-# def count_submits(count: int = counter):
-#     return count + 1
+def increment_counter():
+    st.session_state['counter'] += 1
 
 
 def push_to_bigquery(rows: dict,
@@ -121,10 +121,11 @@ if 'selected_indices' in st.session_state:
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 elif st.session_state.name != '':
-    counter = 0
+    if 'counter' not in st.session_state:
+        st.session_state['counter'] = 0
     col1, col2 = st.columns([1, 2])
     with col1:
-        st.subheader(f"You've submitted {counter} times")
+        st.subheader(f"You've submitted {st.session_state.counter} times")
         selected_row = get_random_row(df)
         if isinstance(selected_row['Employer'], str):
             employer = selected_row["Employer"]
@@ -206,7 +207,7 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time,}]
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                    on_click=counter + 1)
+                                    on_click=increment_counter)
                 if submitted:
                     # if relevancy_rating and accuracy_rating and summary_rating:
                     push_to_bigquery(user_feedback)
