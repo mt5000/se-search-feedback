@@ -231,9 +231,9 @@ elif st.session_state.name != '':
                                   "Q1 Relevancy Rating": st.session_state.relevancy_rating,
                                   "Q1 Relevancy Comments": st.session_state.relevancy_comments,
                                   "Q2 Accuracy Rating": st.session_state.accuracy_rating,
-                                  "Q2 Accuracy Comments": st.session_state.accuracy_input,
+                                  "Q2 Accuracy Comments": st.session_state.accuracy_comments,
                                   "Q3 Summary Rating": st.session_state.summary_rating,
-                                  "Q3 Summary Comments": st.session_state.summary_input,
+                                  "Q3 Summary Comments": st.session_state.summary_comments,
                                   "Name": name,
                                   "Time Submitted": time, }]
                 st.write(user_feedback)
