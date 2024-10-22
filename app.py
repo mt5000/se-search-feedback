@@ -111,16 +111,16 @@ if 'name' not in st.session_state:
     st.session_state.name = ''
 if 'relevancy_rating' not in st.session_state:
     st.session_state.relevancy_rating = 0
-if 'relevancy_comments' not in st.session_state:
-    st.session_state.relevancy_comments = ''
+if 'relevancy_input' not in st.session_state:
+    st.session_state.relevancy_input = ''
 if 'accuracy_rating' not in st.session_state:
     st.session_state.accuracy_rating = 0
-if 'accuracy_comments' not in st.session_state:
-    st.session_state.accuracy_comments = ''
+if 'accuracy_input' not in st.session_state:
+    st.session_state.accuracy_input = ''
 if 'summary_rating' not in st.session_state:
     st.session_state.summary_rating = 0
-if 'summary_comments' not in st.session_state:
-    st.session_state.summary_comments = ''
+if 'summary_input' not in st.session_state:
+    st.session_state.summary_input = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 name = st.text_input("Name", key="name_input", help="Please enter your first and last name",
