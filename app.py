@@ -81,8 +81,6 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
     if 'selected_row_index' not in st.session_state or st.session_state['selected_row_index'] not in df.index:
         selected_index = random.choice(df.index)
         st.session_state['selected_row_index'] = selected_index
-    else:
-        selected_index = st.session_state['selected_row_index']
     selected_row = df.loc[selected_index]
     return selected_row
 
