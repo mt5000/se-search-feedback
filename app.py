@@ -107,6 +107,8 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'name' not in st.session_state:
     st.session_state.name = ''
+if 'relevancy_comments' not in st.session_state:
+    st.session_state.relevancy_comments = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 name = st.text_input("Name", key="name_input", help="Please enter your first and last name",
