@@ -184,7 +184,7 @@ elif st.session_state.name != '':
                 key="relevancy_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 relevancy_input = st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
-                                               key="relevancy_input",
+                                               key="relevancy_input", on_change=update_relevancy_comments
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
