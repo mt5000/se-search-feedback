@@ -107,7 +107,6 @@ def format_func(option):
 
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
-st.session_state.submitted = False
 if 'name' not in st.session_state:
     st.session_state.name = ''
 if 'query' not in st.session_state:
@@ -235,11 +234,22 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                user_feedback = [{"Query":st.session_state.query,
-                                  "Success Enablers": ', '.join(st.session_state.success_enablers),
-                                  "Employer": st.session_state.employer,
-                                  "Summary": st.session_state.summary,
-                                  "Journeys": st.session_state.journeys,
+                query_field = st.text_input("hidden query", value=st.session_state.query,
+                                            label_visibility="collapsed")
+                success_enablers_field = st.text_input("hidden success enablers",
+                                                       value=', '.join(st.session_state.success_enablers),
+                                                       label_visibility="collapsed")
+                summary_field = st.text_input("hidden summary field", value=st.session_state.summary,
+                                              label_visibility="collapsed")
+                employer_field = st.text_input("hidden employer field", value=st.session_state.employer,
+                                               label_visibility="collapsed")
+                journeys_field = st.text_input("hidden journey field", value=st.session_state.journeys,
+                                               label_visibility="collapsed")
+                user_feedback = [{"Query":query_field,
+                                  "Success Enablers": success_enablers_field,
+                                  "Employer": employer_field,
+                                  "Summary": summary_field,
+                                  "Journeys": journeys_field,
                                   "Q1 Relevancy Rating": relevancy_rating,
                                   "Q1 Relevancy Comments": relevancy_comments,
                                   "Q2 Accuracy Rating": accuracy_rating,
@@ -250,8 +260,9 @@ elif st.session_state.name != '':
                                   "Time Submitted": time, }]
                 st.write(user_feedback)
                 st.session_state.submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                    on_click=push_to_bigquery, args=(user_feedback,))
+                                    on_click=increment_counter)
                 if st.session_state.submitted:
+                    push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
