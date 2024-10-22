@@ -78,7 +78,7 @@ def push_to_bigquery(rows: dict,
 
 
 def get_random_row(df: pd.DataFrame) -> pd.Series:
-    if 'selected_row_index' not in st.session_state:
+    if 'selected_row_index' not in st.session_state or st.session_state['selected_row_index'] not in df.index:
         selected_index = random.choice(df.index)
         st.session_state['selected_row_index'] = selected_index
     else:
@@ -208,13 +208,10 @@ elif st.session_state.name != '':
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
-                    # if relevancy_rating and accuracy_rating and summary_rating:
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
-                    # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
-                #     st.subheader(f"Hey {name}, You have to give a rating first!")
 
 else:
     st.subheader("Enter Your Name To Get Started")
