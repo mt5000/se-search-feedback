@@ -53,11 +53,13 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
 def update_text():
     st.session_state.name = st.session_state.name_input
 
-def update_relevancy_rating():
+def update_form_input():
     st.session_state.relevancy_rating = st.session_state.relevancy_score
-
-def update_relevancy_comments():
     st.session_state.relevancy_comments = st.session_state.relevancy_input
+    st.session_state.accuracy_rating = st.session_state.accuracy_score
+    st.session_state.accuracy_comments = st.session_state.accuracy_input
+    st.session_state.summary_rating = st.session_state.summary_score
+    st.session_state.summary_comments = st.session_state.summary_input
 
 
 def increment_counter():
@@ -107,8 +109,18 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'name' not in st.session_state:
     st.session_state.name = ''
+if 'relevancy_rating' not in st.session_state:
+    st.session_state.relevancy_rating = 0
 if 'relevancy_comments' not in st.session_state:
     st.session_state.relevancy_comments = ''
+if 'accuracy_rating' not in st.session_state:
+    st.session_state.accuracy_rating = 0
+if 'accuracy_comments' not in st.session_state:
+    st.session_state.accuracy_comments = ''
+if 'summary_rating' not in st.session_state:
+    st.session_state.summary_rating = 0
+if 'summary_comments' not in st.session_state:
+    st.session_state.summary_comments = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 name = st.text_input("Name", key="name_input", help="Please enter your first and last name",
@@ -178,56 +190,56 @@ elif st.session_state.name != '':
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
-                relevancy_rating = st.radio(
+                st.session_state.relevancy_rating = st.radio(
                 "Select your answer:",
                 options = options, format_func = format_func,
                 key="relevancy_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                relevancy_input = st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
-                                               key="relevancy_input", on_change=update_relevancy_comments
+                st.session_state.relevancy_input = st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
+                                               key="relevancy_input"
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 st.markdown(question_2)
                 labels = ["No", "Yes", "Neutral"]
-                accuracy_rating = st.radio(
+                st.session_state.accuracy_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
                     key="accuracy_acore")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
+                st.session_state.accuracy_comments = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 st.markdown(question_3)
                 labels = ["Yes", "No", "Neutral"]
-                summary_rating = st.radio(
+                st.session_state.summary_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
-                    key="summary")
+                    key="summary_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                summary_input = st.text_area("Enter your thoughts here", key="summary_input",
+                st.session_state.summary_input = st.text_area("Enter your thoughts here", key="summary_input",
                                              )
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
+                user_feedback = [{"Query": query,
+                                  "Success Enablers": ', '.join(success_enablers),
+                                  "Employer": employer,
+                                  "Summary": summary,
+                                  "Journeys": journeys,
+                                  "Q1 Relevancy Rating": st.session_state.relevancy_rating,
+                                  "Q1 Relevancy Comments": st.session_state.relevancy_comments,
+                                  "Q2 Accuracy Rating": st.session_state.accuracy_rating,
+                                  "Q2 Accuracy Comments": st.session_state.accuracy_input,
+                                  "Q3 Summary Rating": st.session_state.summary_rating,
+                                  "Q3 Summary Comments": st.session_state.summary_input,
+                                  "Name": name,
+                                  "Time Submitted": time, }]
+                st.write(user_feedback)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
-                    user_feedback = [{"Query": query,
-                                      "Success Enablers": ', '.join(success_enablers),
-                                      "Employer": employer,
-                                      "Summary": summary,
-                                      "Journeys": journeys,
-                                      "Q1 Relevancy Rating": relevancy_rating,
-                                      "Q1 Relevancy Comments": relevancy_input,
-                                      "Q2 Accuracy Rating": accuracy_rating,
-                                      "Q2 Accuracy Comments": accuracy_input,
-                                      "Q3 Summary Rating": summary_rating,
-                                      "Q3 Summary Comments": summary_input,
-                                      "Name": name,
-                                      "Time Submitted": time, }]
-                    st.write(user_feedback)
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
