@@ -212,6 +212,7 @@ elif st.session_state.name != '':
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
+                    del st.session_state['selected_row_index']
 
 else:
     st.subheader("Enter Your Name To Get Started")
