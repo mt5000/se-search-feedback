@@ -67,7 +67,7 @@ def push_to_bigquery(rows: dict,
     )
     try:
         client = bigquery.Client(credentials= credentials, project=project_id)
-        table_id: str = "streamlit_app_feedback"
+        table_id: str = "se_app_feedback"
         table_ref = f"{project_id}.{dataset_id}.{table_id}"
         errors = client.insert_rows_json(table_ref, rows)
         if errors:
