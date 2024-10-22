@@ -124,41 +124,41 @@ elif st.session_state.name != '':
     if 'counter' not in st.session_state:
         st.session_state['counter'] = 0
     col1, col2 = st.columns([1, 2])
-    with col1:
-        st.subheader(f"You've submitted {st.session_state.counter} times")
-        selected_row = get_random_row(df)
-        if isinstance(selected_row['Employer'], str):
-            employer = selected_row["Employer"]
-        else:
-            employer = "None"
-        if isinstance(selected_row['Success Enablers'], str):
-            se = selected_row['Success Enablers']
-            success_enablers_list = str(se).split(',')
-            success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
-        else:
-            success_enablers = "None"
-        query = selected_row['Input']
-        st.markdown("**Query**:  " + query)
-        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        st.markdown("**Success Enablers Returned**:")
-        st.write("\n".join(success_enablers))
-        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        st.markdown("**Employer**: " + employer)
-        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        st.markdown("**AI Summary**: ")
-        st.write(selected_row["Summary"])
-        st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-        st.markdown("**Journeys:**")
-        if isinstance(selected_row['Journeys'], str):
-            journey = selected_row["Journeys"]
-            journeys_list = str(journey).split(',')
-            journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
-            journeys = "\n".join(journeys)
-        else:
-            journeys = "None"
-        st.write(journeys)
-        with col2:
-            with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
+    with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
+        with col1:
+            st.subheader(f"You've submitted {st.session_state.counter} times")
+            selected_row = get_random_row(df)
+            if isinstance(selected_row['Employer'], str):
+                employer = selected_row["Employer"]
+            else:
+                employer = "None"
+            if isinstance(selected_row['Success Enablers'], str):
+                se = selected_row['Success Enablers']
+                success_enablers_list = str(se).split(',')
+                success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+            else:
+                success_enablers = "None"
+            query = selected_row['Input']
+            st.markdown("**Query**:  " + query)
+            st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+            st.markdown("**Success Enablers Returned**:")
+            st.write("\n".join(success_enablers))
+            st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+            st.markdown("**Employer**: " + employer)
+            st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+            st.markdown("**AI Summary**: ")
+            st.write(selected_row["Summary"])
+            st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+            st.markdown("**Journeys:**")
+            if isinstance(selected_row['Journeys'], str):
+                journey = selected_row["Journeys"]
+                journeys_list = str(journey).split(',')
+                journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
+                journeys = "\n".join(journeys)
+            else:
+                journeys = "None"
+            st.write(journeys)
+            with col2:
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
