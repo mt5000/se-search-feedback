@@ -98,7 +98,6 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
-    st.session_state.submitted = False
     return selected_row
 
 
@@ -108,8 +107,7 @@ def format_func(option):
 
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
-if 'submitted' not in st.session_state:
-    st.session_state.submitted = False
+st.session_state.submitted = False
 if 'name' not in st.session_state:
     st.session_state.name = ''
 if 'query' not in st.session_state:
