@@ -202,8 +202,7 @@ elif st.session_state.name != '':
                 st.session_state.journeys = "None"
             st.write(st.session_state.journeys)
         with col2:
-                st.write(f"Enter the number {selected_index} in this field")
-                df_index = st.number_input("")
+                df_index = st.number_input(f"Enter the number {selected_index} in this field", format="%i")
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
