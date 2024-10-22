@@ -202,6 +202,8 @@ elif st.session_state.name != '':
                 st.session_state.journeys = "None"
             st.write(st.session_state.journeys)
         with col2:
+                st.write(f"Enter the number {selected_index} in this field")
+                df_index = st.number_input("")
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
@@ -238,21 +240,11 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                query_field = st.text_input("hidden query", value=df.loc[selected_index].Input,
-                                            label_visibility="collapsed")
-                success_enablers_field = st.text_input("hidden success enablers", value = df.loc[selected_index]["Success Enablers"],
-                                                       label_visibility="collapsed")
-                summary_field = st.text_input("hidden summary field", value = df.loc[selected_index]["Summary"],
-                                              label_visibility="collapsed")
-                employer_field = st.text_input("hidden employer field", value = df.loc[selected_index]["Employer"],
-                                               label_visibility="collapsed")
-                journeys_field = st.text_input("hidden journey field", value = df.loc[selected_index]["Journeys"],
-                                               label_visibility="collapsed")
-                user_feedback = [{"Query":query_field,
-                                  "Success Enablers": success_enablers_field,
-                                  "Employer": employer_field,
-                                  "Summary": summary_field,
-                                  "Journeys": journeys_field,
+                user_feedback = [{"Query":df.loc[df_index, 'Input'],
+                                  "Success Enablers": df.loc[df_index, 'Success Enablers'],
+                                  "Employer": df.loc[df_index, 'Employer'],
+                                  "Summary": df.loc[df_index, 'Summary'],
+                                  "Journeys": df.loc[df_index, 'Journeys'],
                                   "Q1 Relevancy Rating": relevancy_rating,
                                   "Q1 Relevancy Comments": relevancy_comments,
                                   "Q2 Accuracy Rating": accuracy_rating,

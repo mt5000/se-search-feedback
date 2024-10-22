@@ -55,6 +55,7 @@ coverage.xml
 .pytest_cache/
 cover/
 
+add_primary_key.py
 # Translations
 *.mo
 *.pot
