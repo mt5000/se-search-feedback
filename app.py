@@ -214,7 +214,7 @@ elif st.session_state.name != '':
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
-                    cached_indices = st.session_state.get('selected_indices', set())
+                    cached_indices = st.session_state.get('selected_indices')
                     cached_indices.add(st.session_state['selected_indices'])
                     st.session_state['selected_indices'] = cached_indices
 
