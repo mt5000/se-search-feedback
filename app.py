@@ -133,7 +133,7 @@ df = df.loc[remaining_indices]
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 elif st.session_state.name != '':
-    # with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
+    with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
@@ -207,23 +207,22 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                user_feedback = [{"Query": query,
-                                 "Success Enablers": ', '.join(success_enablers),
-                                 "Employer": employer,
-                                 "Summary": selected_row['Summary'],
-                                 "Journeys": journeys,
-                                 "Q1 Relevancy Rating": relevancy_rating,
-                                 "Q1 Relevancy Comments": relevancy_input,
-                                 "Q2 Accuracy Rating": accuracy_rating,
-                                 "Q2 Accuracy Comments": accuracy_input,
-                                 "Q3 Summary Rating": summary_rating,
-                                 "Q3 Summary Comments": summary_input,
-                                  "Name": name,
-                                  "Time Submitted": time,}]
-                st.write(user_feedback)
                 submitted = st.button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
+                    user_feedback = [{"Query": query,
+                                      "Success Enablers": ', '.join(success_enablers),
+                                      "Employer": employer,
+                                      "Summary": selected_row['Summary'],
+                                      "Journeys": journeys,
+                                      "Q1 Relevancy Rating": relevancy_rating,
+                                      "Q1 Relevancy Comments": relevancy_input,
+                                      "Q2 Accuracy Rating": accuracy_rating,
+                                      "Q2 Accuracy Comments": accuracy_input,
+                                      "Q3 Summary Rating": summary_rating,
+                                      "Q3 Summary Comments": summary_input,
+                                      "Name": name,
+                                      "Time Submitted": time, }]
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
