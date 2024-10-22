@@ -78,14 +78,12 @@ def push_to_bigquery(rows: dict,
 
 
 def get_random_row(df: pd.DataFrame) -> pd.Series:
-    selected_index = random.choice(df.index)
+    if 'selected_row_index' not in st.session_state:
+        selected_index = random.choice(df.index)
+        st.session_state['selected_row_index'] = selected_index
+    else:
+        selected_index = st.session_state['selected_row_index']
     selected_row = df.loc[selected_index]
-
-    # Cache the selected row index to ensure it won't be selected again
-    cached_indices = st.session_state.get('selected_indices', set())
-    cached_indices.add(selected_index)
-    st.session_state['selected_indices'] = cached_indices
-
     return selected_row
 
 
@@ -113,11 +111,9 @@ st.markdown(
 df = import_dataframe()
 
 # Exclude already selected rows
-if 'selected_row_index' not in st.session_state:
-    selected_index = random.choice(df.index)
-    st.session_state['selected_row_index'] = selected_index
-else:
-    selected_index = st.session_state['selected_row_index']
+if 'selected_indices' in st.session_state:
+    remaining_indices = df.index.difference(st.session_state['selected_indices'])
+    df = df.loc[remaining_indices]
 
 
 if df.empty:
