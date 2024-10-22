@@ -196,7 +196,7 @@ elif st.session_state.name != '':
                 st.session_state.journeys = "\n".join(journeys)
             else:
                 st.session_state.journeys = "None"
-            st.write(journeys)
+            st.write(st.session_state.journeys)
         with col2:
                 st.markdown(question_1)
                 options = [1, -1, 0]
