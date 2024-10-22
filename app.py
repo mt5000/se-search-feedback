@@ -137,7 +137,8 @@ elif st.session_state.name != '':
             success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
         else:
             success_enablers = "None"
-        st.markdown("**Query**:  " + selected_row['Input'])
+        query = selected_row['Input']
+        st.markdown("**Query**:  " + query)
         st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
         st.markdown("**Success Enablers Returned**:")
         st.write("\n".join(success_enablers))
@@ -193,7 +194,7 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                user_feedback = [{"Query": selected_row['Input'],
+                user_feedback = [{"Query": query,
                                  "Success Enablers": ', '.join(success_enablers),
                                  "Employer": employer,
                                  "Summary": selected_row['Summary'],
