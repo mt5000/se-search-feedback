@@ -190,34 +190,34 @@ elif st.session_state.name != '':
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
-                st.session_state.relevancy_rating = st.radio(
+                relevancy_rating = st.radio(
                 "Select your answer:",
                 options = options, format_func = format_func,
                 key="relevancy_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                st.session_state.relevancy_input = st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
+                relevancy_input = st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
                                                key="relevancy_input"
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 st.markdown(question_2)
                 labels = ["No", "Yes", "Neutral"]
-                st.session_state.accuracy_rating = st.radio(
+                accuracy_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
                     key="accuracy_acore")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                st.session_state.accuracy_comments = st.text_area("Enter your thoughts here", key="accuracy_input",
+                accuracy_comments = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 st.markdown(question_3)
                 labels = ["Yes", "No", "Neutral"]
-                st.session_state.summary_rating = st.radio(
+                summary_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
                     key="summary_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                st.session_state.summary_input = st.text_area("Enter your thoughts here", key="summary_input",
+                summary_input = st.text_area("Enter your thoughts here", key="summary_input",
                                              )
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
