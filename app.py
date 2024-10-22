@@ -113,9 +113,11 @@ st.markdown(
 df = import_dataframe()
 
 # Exclude already selected rows
-if 'selected_indices' in st.session_state:
-    remaining_indices = df.index.difference(st.session_state['selected_indices'])
-    df = df.loc[remaining_indices]
+if 'selected_row_index' not in st.session_state:
+    selected_index = random.choice(df.index)
+    st.session_state['selected_row_index'] = selected_index
+else:
+    selected_index = st.session_state['selected_row_index']
 
 
 if df.empty:
