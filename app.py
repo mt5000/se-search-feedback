@@ -111,6 +111,7 @@ st.markdown(
 )
 
 df = import_dataframe()
+selected_row = get_random_row(df)
 
 # Exclude already selected rows
 if 'selected_indices' in st.session_state:
@@ -127,7 +128,6 @@ elif st.session_state.name != '':
     with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
-            selected_row = get_random_row(df)
             if isinstance(selected_row['Employer'], str):
                 employer = selected_row["Employer"]
             else:
