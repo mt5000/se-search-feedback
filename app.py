@@ -78,12 +78,18 @@ def push_to_bigquery(rows: dict,
 
 
 def get_random_row(df: pd.DataFrame) -> pd.Series:
-    if 'selected_row_index' not in st.session_state or st.session_state['selected_row_index'] not in df.index:
-        selected_index = random.choice(df.index)
+    # Always picking a new row after submission.
+    remaining_indices = df.index.difference(st.session_state.get('selected_indices', set()))
+    if not remaining_indices.empty:
+        selected_index = random.choice(remaining_indices)
         st.session_state['selected_row_index'] = selected_index
-        selected_row = df.loc[selected_index]
     else:
+        st.session_state['selected_row_index'] = None  # No more rows to select.
+
+    if st.session_state['selected_row_index'] is not None:
         selected_row = df.loc[st.session_state['selected_row_index']]
+    else:
+        selected_row = None
     return selected_row
 
 
@@ -208,11 +214,13 @@ elif st.session_state.name != '':
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
-                    push_to_bigquery(user_feedback)
-                    st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
-                    # Add the selected index to the set of reviewed indices
-                    st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
-                    del st.session_state['selected_row_index']
+                    if selected_row is not None:
+                        push_to_bigquery(user_feedback)
+                        st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
+                        # Add the selected index to the set of reviewed indices
+                        st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
+                        # Manually remove the selected row index to update the display for the next query
+                        st.session_state['selected_row_index'] = None
 
 else:
     st.subheader("Enter Your Name To Get Started")
