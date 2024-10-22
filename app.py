@@ -215,9 +215,6 @@ elif st.session_state.name != '':
                     cached_indices = st.session_state.get('selected_indices', set())
                     cached_indices.add(st.session_state['selected_row_index'])
                     st.session_state['selected_indices'] = cached_indices
-
-                    # Clear the stored row index so a new one can be selected
-                    del st.session_state['selected_row_index']
                 #     st.subheader(f"Hey {name}, You have to give a rating first!")
 
 else:
