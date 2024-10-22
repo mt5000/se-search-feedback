@@ -251,9 +251,9 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time, }]
                 st.write(user_feedback)
-                submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
+                st.session_state.submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=push_to_bigquery, args=(user_feedback,))
-                if submitted:
+                if st.session_state.submitted:
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
