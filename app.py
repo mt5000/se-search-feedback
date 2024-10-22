@@ -214,13 +214,12 @@ elif st.session_state.name != '':
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
-                    cached_indices = st.session_state.get('selected_indices')
-                    # cached_indices.add(st.session_state['selected_indices'])
+                    cached_indices = st.session_state.get('selected_indices', set())
+                    cached_indices.add(st.session_state['selected_row_index'])
                     st.session_state['selected_indices'] = cached_indices
 
                     # Clear the stored row index so a new one can be selected
-                    del st.session_state['selected_indices']
-                # else:
+                    del st.session_state['selected_row_index']
                 #     st.subheader(f"Hey {name}, You have to give a rating first!")
 
 else:
