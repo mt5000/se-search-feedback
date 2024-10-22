@@ -177,7 +177,8 @@ elif st.session_state.name != '':
                 options = options, format_func = format_func,
                 key="relevancy_score", on_change=update_relevancy_rating)
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                relevancy_input = st.text_area("Enter your thoughts here", key="relevancy_input",
+                relevancy_input = st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
+                                               key="relevancy_input",
                                                on_change=update_relevancy_comments)
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
@@ -186,7 +187,7 @@ elif st.session_state.name != '':
                 accuracy_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func = format_func,
-                    key="accuracy")
+                    key="accuracy_acore")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 accuracy_input = st.text_area("Enter your thoughts here", key="accuracy_input",
                                               )
