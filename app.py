@@ -240,7 +240,7 @@ elif st.session_state.name != '':
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
                 query_field = st.text_input("hidden query", value=df.loc[selected_index].Input,
                                             label_visibility="collapsed")
-                success_enablers_field = st.text_input("hidden success enablers", value = df.loc[selected_index]["Success_enablers"],
+                success_enablers_field = st.text_input("hidden success enablers", value = df.loc[selected_index]["Success Enablers"],
                                                        label_visibility="collapsed")
                 summary_field = st.text_input("hidden summary field", value = df.loc[selected_index]["Summary"],
                                               label_visibility="collapsed")
