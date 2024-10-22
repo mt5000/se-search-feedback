@@ -220,7 +220,7 @@ elif st.session_state.name != '':
                         # Add the selected index to the set of reviewed indices
                         st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
                         # Manually remove the selected row index to update the display for the next query
-                        st.session_state['selected_row_index'] = None
+                        # st.session_state['selected_row_index'] = None
 
 else:
     st.subheader("Enter Your Name To Get Started")
