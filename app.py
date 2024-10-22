@@ -238,7 +238,7 @@ elif st.session_state.name != '':
                                   "Time Submitted": time, }]
                 st.write(user_feedback)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                    on_click=increment_counter)
+                                    on_click=update_form_input)
                 if submitted:
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
