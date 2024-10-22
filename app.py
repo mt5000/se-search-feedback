@@ -53,13 +53,13 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
 def update_text():
     st.session_state.name = st.session_state.name_input
 
-def update_form_input():
-    st.session_state.relevancy_rating = st.session_state.relevancy_score
-    st.session_state.relevancy_comments = st.session_state.relevancy_input
-    st.session_state.accuracy_rating = st.session_state.accuracy_score
-    st.session_state.accuracy_comments = st.session_state.accuracy_input
-    st.session_state.summary_rating = st.session_state.summary_score
-    st.session_state.summary_comments = st.session_state.summary_input
+# def update_form_input():
+#     st.session_state.relevancy_rating = st.session_state.relevancy_score
+#     st.session_state.relevancy_comments = st.session_state.relevancy_input
+#     st.session_state.accuracy_rating = st.session_state.accuracy_score
+#     st.session_state.accuracy_comments = st.session_state.accuracy_input
+#     st.session_state.summary_rating = st.session_state.summary_score
+#     st.session_state.summary_comments = st.session_state.summary_input
 
 
 def increment_counter():
@@ -109,18 +109,29 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'name' not in st.session_state:
     st.session_state.name = ''
-if 'relevancy_rating' not in st.session_state:
-    st.session_state.relevancy_rating = 0
-if 'relevancy_comments' not in st.session_state:
-    st.session_state.relevancy_comments = ''
-if 'accuracy_rating' not in st.session_state:
-    st.session_state.accuracy_rating = 0
-if 'accuracy_comments' not in st.session_state:
-    st.session_state.accuracy_comments = ''
-if 'summary_rating' not in st.session_state:
-    st.session_state.summary_rating = 0
-if 'summary_comments' not in st.session_state:
-    st.session_state.summary_comments = ''
+if 'query' not in st.session_state:
+    st.session_state.query = ''
+if 'employer' not in st.session_state:
+    st.session_state.employer = ''
+if 'success_enablers' not in st.session_state:
+    st.session_state.success_enablers = ''
+if 'summary' not in st.session_state:
+    st.session_state.summary = ''
+if 'journeys' not in st.session_state:
+    st.session_state.journeys = ''
+
+# if 'relevancy_rating' not in st.session_state:
+#     st.session_state.relevancy_rating = 0
+# if 'relevancy_comments' not in st.session_state:
+#     st.session_state.relevancy_comments = ''
+# if 'accuracy_rating' not in st.session_state:
+#     st.session_state.accuracy_rating = 0
+# if 'accuracy_comments' not in st.session_state:
+#     st.session_state.accuracy_comments = ''
+# if 'summary_rating' not in st.session_state:
+#     st.session_state.summary_rating = 0
+# if 'summary_comments' not in st.session_state:
+#     st.session_state.summary_comments = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 name = st.text_input("Name", key="name_input", help="Please enter your first and last name",
@@ -153,38 +164,38 @@ elif st.session_state.name != '':
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
-                employer = selected_row["Employer"]
+                st.session_state.employer = selected_row["Employer"]
             else:
-                employer = "None"
+                st.session_state.employer = "None"
             if isinstance(selected_row['Success Enablers'], str):
                 se = selected_row['Success Enablers']
                 success_enablers_list = str(se).split(',')
-                success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+                st.session_state.success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
             else:
-                success_enablers = "None"
+                st.session_state.success_enablers = "None"
             query = selected_row['Input']
             st.markdown("**Query**:  " + query)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Success Enablers Returned**:")
-            st.write("\n".join(success_enablers))
+            st.write("\n".join(st.session_state.success_enablers))
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-            st.markdown("**Employer**: " + employer)
+            st.markdown("**Employer**: " + st.session_state.employer)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**AI Summary**: ")
             if isinstance(selected_row['Summary'], str):
-                summary = selected_row['Summary']
+                st.session_state.summary = selected_row['Summary']
             else:
-                summary = "None"
-            st.write(summary)
+                st.session_state.summary = "None"
+            st.write(st.session_state.summary)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Journeys:**")
             if isinstance(selected_row['Journeys'], str):
                 journey = selected_row["Journeys"]
                 journeys_list = str(journey).split(',')
                 journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
-                journeys = "\n".join(journeys)
+                st.session_state.journeys = "\n".join(journeys)
             else:
-                journeys = "None"
+                st.session_state.journeys = "None"
             st.write(journeys)
         with col2:
                 st.markdown(question_1)
@@ -223,11 +234,11 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                user_feedback = [{"Query": query,
-                                  "Success Enablers": ', '.join(success_enablers),
-                                  "Employer": employer,
-                                  "Summary": summary,
-                                  "Journeys": journeys,
+                user_feedback = [{"Query": st.session_state.query,
+                                  "Success Enablers": ', '.join(st.session_state.success_enablers),
+                                  "Employer": st.session_state.employer,
+                                  "Summary": st.session_state.summary,
+                                  "Journeys": st.session_state.journeys,
                                   "Q1 Relevancy Rating": relevancy_rating,
                                   "Q1 Relevancy Comments": relevancy_comments,
                                   "Q2 Accuracy Rating": accuracy_rating,
@@ -238,7 +249,7 @@ elif st.session_state.name != '':
                                   "Time Submitted": time, }]
                 st.write(user_feedback)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                    on_click=update_form_input)
+                                    on_click=increment_counter)
                 if submitted:
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
