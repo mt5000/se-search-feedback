@@ -53,6 +53,12 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
 def update_text():
     st.session_state.name = st.session_state.name_input
 
+def update_relevancy_rating():
+    st.session_state.relevancy_rating = st.session_state.relevancy_score
+
+def update_relevancy_comments():
+    st.session_state.relevancy_comments = st.session_state.relevancy_input
+
 
 def increment_counter():
     st.session_state['counter'] += 1
@@ -125,7 +131,7 @@ df = df.loc[remaining_indices]
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 elif st.session_state.name != '':
-    # with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
+    with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
@@ -169,10 +175,10 @@ elif st.session_state.name != '':
                 relevancy_rating = st.radio(
                 "Select your answer:",
                 options = options, format_func = format_func,
-                key="relevancy")
+                key="relevancy_score", on_change=update_relevancy_rating)
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 relevancy_input = st.text_area("Enter your thoughts here", key="relevancy_input",
-                                               )
+                                               on_change=update_relevancy_comments)
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 
                 st.markdown(question_2)
