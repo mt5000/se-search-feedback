@@ -125,7 +125,7 @@ df = df.loc[remaining_indices]
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 elif st.session_state.name != '':
-    with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
+    # with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
