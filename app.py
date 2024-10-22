@@ -85,11 +85,12 @@ def push_to_bigquery(rows: dict,
 
 
 
-def get_random_row(df: pd.DataFrame) -> pd.Series:
+def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
     # Always picking a new row after submission.
     remaining_indices = df.index.difference(st.session_state.get('selected_indices', set()))
     if not remaining_indices.empty:
         selected_index = random.choice(remaining_indices)
+        st.write(f"selected index: {selected_index}, {type(selected_index)}")
         st.session_state['selected_row_index'] = selected_index
     else:
         st.session_state['selected_row_index'] = None  # No more rows to select.
@@ -98,7 +99,10 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
-    return selected_row
+    if selected_index:
+        return selected_row, selected_index
+    else:
+        return selected_row, None
 
 
 def format_func(option):
@@ -151,16 +155,16 @@ if 'selected_indices' not in st.session_state:
     st.session_state['selected_indices'] = set()
 # Exclude already selected rows
 remaining_indices = df.index.difference(st.session_state['selected_indices'])
-df = df.loc[remaining_indices]
+df_filtered = df.loc[remaining_indices]
 
-if df.empty:
+if df_filtered.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 elif st.session_state.name != '':
     with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
-        selected_row = get_random_row(df)
+        selected_row, selected_index = get_random_row(df_filtered)
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
@@ -234,16 +238,15 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                query_field = st.text_input("hidden query", value=st.session_state.query,
+                query_field = st.text_input("hidden query", value=df.loc[selected_index].Input,
                                             label_visibility="collapsed")
-                success_enablers_field = st.text_input("hidden success enablers",
-                                                       value=', '.join(st.session_state.success_enablers),
+                success_enablers_field = st.text_input("hidden success enablers", value = df.loc[selected_index]["Success_enablers"],
                                                        label_visibility="collapsed")
-                summary_field = st.text_input("hidden summary field", value=st.session_state.summary,
+                summary_field = st.text_input("hidden summary field", value = df.loc[selected_index]["Summary"],
                                               label_visibility="collapsed")
-                employer_field = st.text_input("hidden employer field", value=st.session_state.employer,
+                employer_field = st.text_input("hidden employer field", value = df.loc[selected_index]["Employer"],
                                                label_visibility="collapsed")
-                journeys_field = st.text_input("hidden journey field", value=st.session_state.journeys,
+                journeys_field = st.text_input("hidden journey field", value = df.loc[selected_index]["Journeys"],
                                                label_visibility="collapsed")
                 user_feedback = [{"Query":query_field,
                                   "Success Enablers": success_enablers_field,
