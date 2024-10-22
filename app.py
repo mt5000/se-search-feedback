@@ -212,7 +212,7 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time,}]
                 st.write(user_feedback)
-                submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
+                submitted = st.button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
                     push_to_bigquery(user_feedback)
