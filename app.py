@@ -207,7 +207,7 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                submitted = st.button("Submit", help="Click to submit your feedback",
+                submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
                     user_feedback = [{"Query": query,
