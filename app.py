@@ -207,12 +207,12 @@ elif st.session_state.name != '':
                                  "Q3 Summary Comments": summary_input,
                                   "Name": name,
                                   "Time Submitted": time,}]
-                submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
+        submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
-                if submitted:
-                    # if relevancy_rating and accuracy_rating and summary_rating:
-                    push_to_bigquery(user_feedback)
-                    st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
+        if submitted:
+            # if relevancy_rating and accuracy_rating and summary_rating:
+            push_to_bigquery(user_feedback)
+            st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                 # else:
                 #     st.subheader(f"Hey {name}, You have to give a rating first!")
 
