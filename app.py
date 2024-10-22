@@ -211,6 +211,7 @@ elif st.session_state.name != '':
                                  "Q3 Summary Comments": summary_input,
                                   "Name": name,
                                   "Time Submitted": time,}]
+                st.write(selected_row)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
