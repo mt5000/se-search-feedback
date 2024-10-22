@@ -110,11 +110,11 @@ st.markdown(
 
 df = import_dataframe()
 
+if 'selected_indices' not in st.session_state:
+    st.session_state['selected_indices'] = set()
 # Exclude already selected rows
-if 'selected_indices' in st.session_state:
-    remaining_indices = df.index.difference(st.session_state['selected_indices'])
-    df = df.loc[remaining_indices]
-
+remaining_indices = df.index.difference(st.session_state['selected_indices'])
+df = df.loc[remaining_indices]
 
 if df.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
@@ -212,9 +212,8 @@ elif st.session_state.name != '':
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
-                    cached_indices = st.session_state.get('selected_indices', set())
-                    cached_indices.add(st.session_state['selected_row_index'])
-                    st.session_state['selected_indices'] = cached_indices
+                    # Add the selected index to the set of reviewed indices
+                    st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
                 #     st.subheader(f"Hey {name}, You have to give a rating first!")
 
 else:
