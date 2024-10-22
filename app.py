@@ -55,11 +55,11 @@ def update_text():
 
 def update_form_input():
     st.session_state.relevancy_rating = st.session_state.relevancy_score
-    st.session_state.relevancy_comments = st.session_state.relevancy_input
+    st.session_state.relevancy_input = st.session_state.relevancy_comments
     st.session_state.accuracy_rating = st.session_state.accuracy_score
-    st.session_state.accuracy_comments = st.session_state.accuracy_input
+    st.session_state.accuracy_input = st.session_state.accuracy_comments
     st.session_state.summary_rating = st.session_state.summary_score
-    st.session_state.summary_comments = st.session_state.summary_input
+    st.session_state.summary_input = st.session_state.summary_comments
 
 
 def increment_counter():
