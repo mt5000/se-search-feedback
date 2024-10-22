@@ -55,11 +55,11 @@ def update_text():
 
 def update_form_input():
     st.session_state.relevancy_rating = st.session_state.relevancy_score
-    st.session_state.relevancy_input = st.session_state.relevancy_comments
+    st.session_state.relevancy_comments = st.session_state.relevancy_input
     st.session_state.accuracy_rating = st.session_state.accuracy_score
-    st.session_state.accuracy_input = st.session_state.accuracy_comments
+    st.session_state.accuracy_comments = st.session_state.accuracy_input
     st.session_state.summary_rating = st.session_state.summary_score
-    st.session_state.summary_input = st.session_state.summary_comments
+    st.session_state.summary_comments = st.session_state.summary_input
 
 
 def increment_counter():
@@ -111,15 +111,15 @@ if 'name' not in st.session_state:
     st.session_state.name = ''
 if 'relevancy_rating' not in st.session_state:
     st.session_state.relevancy_rating = 0
-if 'relevancy_input' not in st.session_state:
+if 'relevancy_comments' not in st.session_state:
     st.session_state.relevancy_input = ''
 if 'accuracy_rating' not in st.session_state:
     st.session_state.accuracy_rating = 0
-if 'accuracy_input' not in st.session_state:
+if 'accuracy_comments' not in st.session_state:
     st.session_state.accuracy_input = ''
 if 'summary_rating' not in st.session_state:
     st.session_state.summary_rating = 0
-if 'summary_input' not in st.session_state:
+if 'summary_comments' not in st.session_state:
     st.session_state.summary_input = ''
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
@@ -195,7 +195,7 @@ elif st.session_state.name != '':
                 options = options, format_func = format_func,
                 key="relevancy_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                relevancy_input = st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
+                relevancy_comments= st.text_area("Enter your thoughts here", value=st.session_state.relevancy_comments,
                                                key="relevancy_input"
                                               )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
@@ -217,7 +217,7 @@ elif st.session_state.name != '':
                     options=options, format_func = format_func,
                     key="summary_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                summary_input = st.text_area("Enter your thoughts here", key="summary_input",
+                summary_comments = st.text_area("Enter your thoughts here", key="summary_input",
                                              )
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
