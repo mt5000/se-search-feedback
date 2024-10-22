@@ -53,6 +53,14 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
 def update_text():
     st.session_state.name = st.session_state.name_input
 
+def submit_form():
+    # Capture the displayed row data and feedback just before submitting
+    current_query = st.session_state.query
+    current_enablers = ', '.join(st.session_state.success_enablers)
+    current_employer = st.session_state.employer
+    current_summary = st.session_state.summary
+    current_journeys = st.session_state.journeys
+
 # def update_form_input():
 #     st.session_state.relevancy_rating = st.session_state.relevancy_score
 #     st.session_state.relevancy_comments = st.session_state.relevancy_input
@@ -234,7 +242,7 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                user_feedback = [{"Query": st.session_state.query,
+                user_feedback = [{"Query":st.session_state.query,
                                   "Success Enablers": ', '.join(st.session_state.success_enablers),
                                   "Employer": st.session_state.employer,
                                   "Summary": st.session_state.summary,
@@ -249,9 +257,8 @@ elif st.session_state.name != '':
                                   "Time Submitted": time, }]
                 st.write(user_feedback)
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                    on_click=increment_counter)
+                                    on_click=push_to_bigquery, args=(user_feedback,))
                 if submitted:
-                    push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
