@@ -168,7 +168,7 @@ elif st.session_state.name != '':
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
-        selected_row = get_random_row(df)
+        # selected_row = get_random_row(df)
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
@@ -262,7 +262,7 @@ elif st.session_state.name != '':
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
-
+                    selected_row = get_random_row(df)
 
 
 else:
