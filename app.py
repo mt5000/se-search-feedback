@@ -159,7 +159,11 @@ elif st.session_state.name != '':
             st.markdown("**Employer**: " + employer)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**AI Summary**: ")
-            st.write(selected_row["Summary"])
+            if isinstance(selected_row['Summary'], str):
+                summary = selected_row['Summary']
+            else:
+                summary = "None"
+            st.write(summary)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Journeys:**")
             if isinstance(selected_row['Journeys'], str):
@@ -213,7 +217,7 @@ elif st.session_state.name != '':
                     user_feedback = [{"Query": query,
                                       "Success Enablers": ', '.join(success_enablers),
                                       "Employer": employer,
-                                      "Summary": selected_row['Summary'],
+                                      "Summary": summary,
                                       "Journeys": journeys,
                                       "Q1 Relevancy Rating": relevancy_rating,
                                       "Q1 Relevancy Comments": relevancy_input,
@@ -223,6 +227,7 @@ elif st.session_state.name != '':
                                       "Q3 Summary Comments": summary_input,
                                       "Name": name,
                                       "Time Submitted": time, }]
+                    st.write(user_feedback)
                     push_to_bigquery(user_feedback)
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
