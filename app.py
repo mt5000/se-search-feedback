@@ -214,13 +214,12 @@ elif st.session_state.name != '':
                 submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
                                     on_click=increment_counter)
                 if submitted:
-                    if selected_row is not None:
-                        push_to_bigquery(user_feedback)
-                        st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
-                        # Add the selected index to the set of reviewed indices
-                        st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
-                        # Manually remove the selected row index to update the display for the next query
-                        # st.session_state['selected_row_index'] = None
+                    push_to_bigquery(user_feedback)
+                    st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
+                    # Add the selected index to the set of reviewed indices
+                    st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
+
+
 
 else:
     st.subheader("Enter Your Name To Get Started")
