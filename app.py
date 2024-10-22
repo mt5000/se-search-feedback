@@ -61,14 +61,6 @@ def submit_form():
     current_summary = st.session_state.summary
     current_journeys = st.session_state.journeys
 
-# def update_form_input():
-#     st.session_state.relevancy_rating = st.session_state.relevancy_score
-#     st.session_state.relevancy_comments = st.session_state.relevancy_input
-#     st.session_state.accuracy_rating = st.session_state.accuracy_score
-#     st.session_state.accuracy_comments = st.session_state.accuracy_input
-#     st.session_state.summary_rating = st.session_state.summary_score
-#     st.session_state.summary_comments = st.session_state.summary_input
-
 
 def increment_counter():
     st.session_state['counter'] += 1
@@ -106,6 +98,7 @@ def get_random_row(df: pd.DataFrame) -> pd.Series:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
+    st.session_state.submitted = False
     return selected_row
 
 
@@ -115,6 +108,8 @@ def format_func(option):
 
 st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form</div>", unsafe_allow_html=True)
 
+if 'submitted' not in st.session_state:
+    st.session_state.submitted = False
 if 'name' not in st.session_state:
     st.session_state.name = ''
 if 'query' not in st.session_state:
@@ -168,7 +163,7 @@ elif st.session_state.name != '':
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
-        # selected_row = get_random_row(df)
+        selected_row = get_random_row(df)
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
@@ -262,7 +257,7 @@ elif st.session_state.name != '':
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
-                    selected_row = get_random_row(df)
+
 
 
 else:
