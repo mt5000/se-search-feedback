@@ -214,7 +214,7 @@ elif st.session_state.name != '':
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
                 queries = {"Query": query,
-                                  "Success Enablers": success_enablers,
+                                  "Success Enablers": ', '.join(success_enablers),
                                   "Employer": employer,
                                   "Summary": summary,
                                   "Journeys": journeys,}
