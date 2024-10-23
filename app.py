@@ -53,23 +53,20 @@ def import_dataframe(filepath: str = "./search_output_for_eval_preprocessed.csv"
 def update_text():
     st.session_state.name = st.session_state.name_input
 
-def submit_form():
-    # Capture the displayed row data and feedback just before submitting
-    current_query = st.session_state.query
-    current_enablers = ', '.join(st.session_state.success_enablers)
-    current_employer = st.session_state.employer
-    current_summary = st.session_state.summary
-    current_journeys = st.session_state.journeys
-
 
 def increment_counter():
     st.session_state['counter'] += 1
 
+def update_query_list(questions: dict):
+    st.session_state.query_list.append(questions)
 
-def push_to_bigquery(rows: dict,
+
+def push_to_bigquery(query_list: list[dict],
+                     feedback_list: list[dict],
                      project_id: str = "healthy-dragon-300820",
                      dataset_id: str = "success_enabler_search_feedback",
                      ):
+    merged_list = [{**dict1, **dict2} for dict1, dict2 in zip(query_list, feedback_list)]
     credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_credentials"]
     )
@@ -77,7 +74,7 @@ def push_to_bigquery(rows: dict,
         client = bigquery.Client(credentials= credentials, project=project_id)
         table_id: str = "se_app_feedback"
         table_ref = f"{project_id}.{dataset_id}.{table_id}"
-        errors = client.insert_rows_json(table_ref, rows)
+        errors = client.insert_rows_json(table_ref, merged_list)
         if errors:
             st.write(f"Errors occurred while inserting rows: {errors}")
     except Exception as e:
@@ -99,10 +96,7 @@ def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
-    if selected_index:
-        return selected_row, selected_index
-    else:
-        return selected_row, None
+    return selected_row
 
 
 def format_func(option):
@@ -113,29 +107,10 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'name' not in st.session_state:
     st.session_state.name = ''
-if 'query' not in st.session_state:
-    st.session_state.query = ''
-if 'employer' not in st.session_state:
-    st.session_state.employer = ''
-if 'success_enablers' not in st.session_state:
-    st.session_state.success_enablers = ''
-if 'summary' not in st.session_state:
-    st.session_state.summary = ''
-if 'journeys' not in st.session_state:
-    st.session_state.journeys = ''
-
-# if 'relevancy_rating' not in st.session_state:
-#     st.session_state.relevancy_rating = 0
-# if 'relevancy_comments' not in st.session_state:
-#     st.session_state.relevancy_comments = ''
-# if 'accuracy_rating' not in st.session_state:
-#     st.session_state.accuracy_rating = 0
-# if 'accuracy_comments' not in st.session_state:
-#     st.session_state.accuracy_comments = ''
-# if 'summary_rating' not in st.session_state:
-#     st.session_state.summary_rating = 0
-# if 'summary_comments' not in st.session_state:
-#     st.session_state.summary_comments = ''
+if 'feedback_list' not in st.session_state:
+    st.session_state.feedback_list = []
+if 'query_list' not in st.session_state:
+    st.session_state.query_list = []
 
 st.markdown("<div class='email-input-container'>", unsafe_allow_html=True)
 name = st.text_input("Name", key="name_input", help="Please enter your first and last name",
@@ -168,41 +143,40 @@ elif st.session_state.name != '':
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
-                st.session_state.employer = selected_row["Employer"]
+                employer = selected_row["Employer"]
             else:
-                st.session_state.employer = "None"
+                employer = "None"
             if isinstance(selected_row['Success Enablers'], str):
                 se = selected_row['Success Enablers']
                 success_enablers_list = str(se).split(',')
-                st.session_state.success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+                success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
             else:
-                st.session_state.success_enablers = "None"
-            st.session_state.query = selected_row['Input']
-            st.markdown("**Query**:  " + st.session_state.query)
+                success_enablers = "None"
+            query = selected_row['Input']
+            st.markdown("**Query**:  " + query)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Success Enablers Returned**:")
-            st.write("\n".join(st.session_state.success_enablers))
+            st.write("\n".join(success_enablers))
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
-            st.markdown("**Employer**: " + st.session_state.employer)
+            st.markdown("**Employer**: " + employer)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**AI Summary**: ")
             if isinstance(selected_row['Summary'], str):
-                st.session_state.summary = selected_row['Summary']
+                summary = selected_row['Summary']
             else:
-                st.session_state.summary = "None"
-            st.write(st.session_state.summary)
+                summary = "None"
+            st.write(summary)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Journeys:**")
             if isinstance(selected_row['Journeys'], str):
                 journey = selected_row["Journeys"]
                 journeys_list = str(journey).split(',')
                 journeys = [f"{i + 1}. {item}" for i, item in enumerate(journeys_list)]
-                st.session_state.journeys = "\n".join(journeys)
+                journeys = "\n".join(journeys)
             else:
-                st.session_state.journeys = "None"
-            st.write(st.session_state.journeys)
+                journeys = "None"
+            st.write(journeys)
         with col2:
-                df_index = st.number_input(f"Enter the number {selected_index} in this field", format="%i")
                 st.markdown(question_1)
                 options = [1, -1, 0]
                 labels = ["Yes", "No", "Neutral"]
@@ -239,11 +213,12 @@ elif st.session_state.name != '':
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
-                user_feedback = [{"Query":df.loc[df_index, 'Input'],
-                                  "Success Enablers": df.loc[df_index, 'Success Enablers'],
-                                  "Employer": df.loc[df_index, 'Employer'],
-                                  "Summary": df.loc[df_index, 'Summary'],
-                                  "Journeys": df.loc[df_index, 'Journeys'],
+                queries = {"Query": query,
+                                  "Success Enablers": success_enablers,
+                                  "Employer": employer,
+                                  "Summary": summary,
+                                  "Journeys": journeys,}
+                user_feedback = {
                                   "Q1 Relevancy Rating": relevancy_rating,
                                   "Q1 Relevancy Comments": relevancy_comments,
                                   "Q2 Accuracy Rating": accuracy_rating,
@@ -251,16 +226,22 @@ elif st.session_state.name != '':
                                   "Q3 Summary Rating": summary_rating,
                                   "Q3 Summary Comments": summary_comments,
                                   "Name": name,
-                                  "Time Submitted": time, }]
+                                  "Time Submitted": time, }
                 st.write(user_feedback)
-                st.session_state.submitted = st.form_submit_button("Submit", help="Click to submit your feedback",
-                                    on_click=increment_counter)
-                if st.session_state.submitted:
-                    push_to_bigquery(user_feedback)
+                submitted = st.form_submit_button("Give Me Another!", help="Click to submit your feedback",
+                                    on_click=update_query_list, args=(queries,))
+                if submitted:
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
 
+final_submit = st.button("I'm All Finished! ", key="Submit")
+if final_submit:
+    if len(st.session_state['feedback_list']) != len(st.session_state['query_list']):
+        st.write("Did you remember to submit your feedback?")
+    else:
+        push_to_bigquery(st.session_state.query_list, st.session_state.feedback_list)
+        st.write("You're All Done!")
 
 
 else:
