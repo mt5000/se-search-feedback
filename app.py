@@ -242,7 +242,7 @@ elif st.session_state.name != '':
             st.write("Did you remember to submit your feedback?")
         else:
             push_to_bigquery(st.session_state.query_list, st.session_state.feedback_list)
-            st.write("You're All Done!")
+            st.subheader("You're All Done!")
 
 
 else:
