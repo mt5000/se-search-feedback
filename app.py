@@ -87,7 +87,6 @@ def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
     remaining_indices = df.index.difference(st.session_state.get('selected_indices', set()))
     if not remaining_indices.empty:
         selected_index = random.choice(remaining_indices)
-        st.write(f"selected index: {selected_index}, {type(selected_index)}")
         st.session_state['selected_row_index'] = selected_index
     else:
         st.session_state['selected_row_index'] = None  # No more rows to select.
