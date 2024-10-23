@@ -118,7 +118,7 @@ st.markdown("</div><div class='spacer'></div>", unsafe_allow_html=True)
 
 st.markdown(
     """
-    <p>You will be given a search query followed by the results. Provide a rating and feedback, click 'submit' and you will be given another to rate. When you are finished, simply close this page</p>
+    <p>You will be given a search query followed by the results. Provide a rating and feedback, click 'submit' and you will be given another to rate. When you are finished, press the 'I'm All Finished' button at the bottom of the page</p>
     """,
     unsafe_allow_html=True
 )
