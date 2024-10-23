@@ -139,7 +139,7 @@ elif st.session_state.name != '':
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
-        selected_row, selected_index = get_random_row(df_filtered)
+        selected_row = get_random_row(df_filtered)
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
