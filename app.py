@@ -233,6 +233,7 @@ elif st.session_state.name != '':
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
+                    st.session_state.feedback_list.append(user_feedback)
 
     final_submit = st.button("I'm All Finished! ", key="Submit")
     if final_submit:
