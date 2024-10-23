@@ -227,7 +227,6 @@ elif st.session_state.name != '':
                                   "Q3 Summary Comments": summary_comments,
                                   "Name": name,
                                   "Time Submitted": time, }
-                st.write(user_feedback)
                 submitted = st.form_submit_button("Give Me Another!", help="Click to submit your feedback",
                                     on_click=update_query_list, args=(queries,))
                 if submitted:
@@ -235,13 +234,14 @@ elif st.session_state.name != '':
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
 
-final_submit = st.button("I'm All Finished! ", key="Submit")
-if final_submit:
-    if len(st.session_state['feedback_list']) != len(st.session_state['query_list']):
-        st.write("Did you remember to submit your feedback?")
-    else:
-        push_to_bigquery(st.session_state.query_list, st.session_state.feedback_list)
-        st.write("You're All Done!")
+    final_submit = st.button("I'm All Finished! ", key="Submit")
+    if final_submit:
+        if len(st.session_state['feedback_list']) != len(st.session_state['query_list']):
+            st.write(len(st.session_state['feedback_list']), len(st.session_state['query_list']))
+            st.write("Did you remember to submit your feedback?")
+        else:
+            push_to_bigquery(st.session_state.query_list, st.session_state.feedback_list)
+            st.write("You're All Done!")
 
 
 else:
