@@ -233,6 +233,7 @@ elif st.session_state.name != '':
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
                     st.session_state.feedback_list.append(user_feedback)
+                    increment_counter()
 
     final_submit = st.button("I'm All Finished! ", key="Submit")
     if final_submit:
