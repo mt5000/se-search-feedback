@@ -61,12 +61,12 @@ def update_query_list(questions: dict):
     st.session_state.query_list.append(questions)
 
 
-def push_to_bigquery(query_list: list[dict],
-                     feedback_list: list[dict],
+def push_to_bigquery(queries: dict,
+                     user_feedback: dict,
                      project_id: str = "healthy-dragon-300820",
                      dataset_id: str = "success_enabler_search_feedback",
                      ):
-    merged_list = [{**dict1, **dict2} for dict1, dict2 in zip(query_list, feedback_list)]
+    merged_list = [{**queries, **user_feedback}]
     credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_credentials"]
     )
@@ -106,8 +106,8 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'name' not in st.session_state:
     st.session_state.name = ''
-if 'feedback_list' not in st.session_state:
-    st.session_state.feedback_list = []
+# if 'feedback_list' not in st.session_state:
+#     st.session_state.feedback_list = []
 if 'query_list' not in st.session_state:
     st.session_state.query_list = []
 
@@ -232,17 +232,9 @@ elif st.session_state.name != '':
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
-                    st.session_state.feedback_list.append(user_feedback)
+                    push_to_bigquery(st.session_state.query_list.pop(), user_feedback)
+                    # st.session_state.feedback_list.append(user_feedback)
                     increment_counter()
-
-    final_submit = st.button("I'm All Finished! ", key="Submit")
-    if final_submit:
-        if len(st.session_state['feedback_list']) != len(st.session_state['query_list']):
-            st.write(len(st.session_state['feedback_list']), len(st.session_state['query_list']))
-            st.write("Did you remember to submit your feedback?")
-        else:
-            push_to_bigquery(st.session_state.query_list, st.session_state.feedback_list)
-            st.subheader("You're All Done!")
 
 
 else:
