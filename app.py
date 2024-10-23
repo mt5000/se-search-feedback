@@ -213,10 +213,10 @@ elif st.session_state.name != '':
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
                 queries = {"Query": query,
-                                  "Success Enablers": ', '.join(success_enablers),
-                                  "Employer": employer,
-                                  "Summary": summary,
-                                  "Journeys": journeys,}
+                            "Success Enablers": ', '.join(success_enablers),
+                            "Employer": employer,
+                            "Summary": summary,
+                            "Journeys": journeys,}
                 user_feedback = {
                                   "Q1 Relevancy Rating": relevancy_rating,
                                   "Q1 Relevancy Comments": relevancy_comments,
@@ -226,7 +226,7 @@ elif st.session_state.name != '':
                                   "Q3 Summary Comments": summary_comments,
                                   "Name": name,
                                   "Time Submitted": time, }
-                submitted = st.form_submit_button("Give Me Another!", help="Click to submit your feedback",
+                submitted = st.form_submit_button("Submit and Give Me Another!", help="Click to submit your feedback",
                                     on_click=update_query_list, args=(queries,))
                 if submitted:
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
