@@ -95,9 +95,9 @@ def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
-    if selected_row is not None:
-        df.loc[selected_index, "Review"] = "Done"
-        df.to_csv("./search_eval.csv", index=False)
+    # if selected_row is not None:
+    #     df.loc[selected_index, "Review"] = "Done"
+    #     df.to_csv("./search_eval.csv", index=False)
     return selected_row
 
 
