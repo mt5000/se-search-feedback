@@ -151,7 +151,7 @@ elif st.session_state.name != '':
                 success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
             else:
                 success_enablers = "None"
-            query = selected_row['Input']
+            query = selected_row['Query']
             st.markdown("**Query**:  " + query)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Success Enablers Returned**:")
