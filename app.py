@@ -238,6 +238,6 @@ elif st.session_state.name != '':
 
 
 else:
-    st.subheader("Enter Your Name To Get Started")
+    st.subheader("Enter Your First and Last Name To Get Started")
 
     
