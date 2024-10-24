@@ -57,9 +57,8 @@ def update_text():
 def increment_counter():
     st.session_state['counter'] += 1
 
-def update_query_list(questions: dict, index, dataframe: pd.DataFrame):
+def update_query_list(questions: dict):
     st.session_state.query_list.append(questions)
-    dataframe.loc[index, "Reviewed"] = "Done"
 
 
 def push_to_bigquery(queries: dict,
@@ -96,7 +95,10 @@ def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
-    return selected_row, selected_index
+    if selected_row is not None:
+        df.loc[selected_index, "Review"] = "Done"
+        df.to_csv("./search_eval.csv", index=False)
+    return selected_row
 
 
 def format_func(option):
@@ -139,7 +141,7 @@ elif st.session_state.name != '':
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
-        selected_row, selected_index = get_random_row(df_filtered)
+        selected_row = get_random_row(df_filtered)
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
@@ -231,7 +233,7 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time, }
                 submitted = st.form_submit_button("Submit and Give Me Another!", help="Click to submit your feedback",
-                                    on_click=update_query_list, args=(queries, selected_index, df))
+                                    on_click=update_query_list, args=(queries,))
                 if submitted:
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
