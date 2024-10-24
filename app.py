@@ -57,8 +57,9 @@ def update_text():
 def increment_counter():
     st.session_state['counter'] += 1
 
-def update_query_list(questions: dict):
+def update_query_list(questions: dict, index, dataframe: pd.DataFrame):
     st.session_state.query_list.append(questions)
+    dataframe.loc[index, "Reviewed"] = "Done"
 
 
 def push_to_bigquery(queries: dict,
@@ -95,7 +96,7 @@ def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
-    return selected_row
+    return selected_row, selected_index
 
 
 def format_func(option):
@@ -138,7 +139,7 @@ elif st.session_state.name != '':
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
-        selected_row = get_random_row(df_filtered)
+        selected_row, selected_index = get_random_row(df_filtered)
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
@@ -149,13 +150,14 @@ elif st.session_state.name != '':
                 se = selected_row['Success Enablers']
                 success_enablers_list = str(se).split(',')
                 success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+                success_enablers = ', '.join(success_enablers)
             else:
                 success_enablers = "None"
             query = selected_row['Query']
             st.markdown("**Query**:  " + query)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Success Enablers Returned**:")
-            st.write("\n".join(success_enablers))
+            st.write(success_enablers)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Employer**: " + employer)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
@@ -227,7 +229,7 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time, }
                 submitted = st.form_submit_button("Submit and Give Me Another!", help="Click to submit your feedback",
-                                    on_click=update_query_list, args=(queries,))
+                                    on_click=update_query_list, args=(queries, selected_index, df))
                 if submitted:
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
