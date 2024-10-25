@@ -1,14 +1,19 @@
 from datetime import datetime
+import os
 
 import streamlit as st
 import pandas as pd
 from google.cloud import bigquery
+import s3fs
 from google.oauth2 import service_account
 import random
 from constants import (question_1,
                        question_2,
                        question_3,
                        )
+aws_access_key = os.getenv('AWS_ACCESS_KEY')
+aws_secret_key = os.getenv('AWS_SECRET_KEY')
+s3_data_path = os.getenv('dataset_uri')
 
 st.markdown(
     """
@@ -44,10 +49,10 @@ st.markdown(
 )
 
 
-@st.cache_data
-def import_dataframe(filepath: str = "./search_eval.csv") -> pd.DataFrame:
-    data = pd.read_csv(filepath)
-    return data
+# @st.cache_data
+# def import_dataframe(filepath: str = "./search_eval.csv") -> pd.DataFrame:
+#     data = pd.read_csv(filepath)
+#     return data
 
 
 def update_text():
@@ -59,6 +64,17 @@ def increment_counter():
 
 def update_query_list(questions: dict):
     st.session_state.query_list.append(questions)
+
+@st.cache_data
+def read_s3_file_to_dataframe(s3_path = s3_data_path):
+    s3 = s3fs.S3FileSystem(key=aws_access_key, secret=aws_secret_key)
+    dataframe = pd.read_csv(s3.open(s3_path, 'r'))
+    return dataframe
+
+def save_dataframe_to_s3(dataframe, s3_path = s3_data_path):
+    s3 = s3fs.S3FileSystem(key=aws_access_key, secret=aws_secret_key)
+    with s3.open(s3_path, 'w') as f:
+        dataframe.to_csv(f, index=False)
 
 
 def push_to_bigquery(queries: dict,
@@ -95,10 +111,7 @@ def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
         selected_row = df.loc[st.session_state['selected_row_index']]
     else:
         selected_row = None
-    # if selected_row is not None:
-    #     df.loc[selected_index, "Review"] = "Done"
-    #     df.to_csv("./search_eval.csv", index=False)
-    return selected_row
+    return selected_row, selected_index
 
 
 def format_func(option):
@@ -109,8 +122,6 @@ st.markdown("<div class='title'>Success Enabler Search & Discovery Feedback Form
 
 if 'name' not in st.session_state:
     st.session_state.name = ''
-# if 'feedback_list' not in st.session_state:
-#     st.session_state.feedback_list = []
 if 'query_list' not in st.session_state:
     st.session_state.query_list = []
 
@@ -126,7 +137,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-df = import_dataframe()
+df = read_s3_file_to_dataframe()
 
 if 'selected_indices' not in st.session_state:
     st.session_state['selected_indices'] = set()
@@ -141,7 +152,7 @@ elif st.session_state.name != '':
         if 'counter' not in st.session_state:
             st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
-        selected_row = get_random_row(df_filtered)
+        selected_row, selected_index = get_random_row(df_filtered)
         with col1:
             st.subheader(f"You've submitted {st.session_state.counter} times")
             if isinstance(selected_row['Employer'], str):
@@ -219,7 +230,7 @@ elif st.session_state.name != '':
                 current_datetime = datetime.now()
                 time = current_datetime.strftime("%Y-%m-%d %H:%M")
                 queries = {"Query": query,
-                            "Success Enablers": ', '.join(success_enablers),
+                            "Success Enablers": success_enablers,
                             "Employer": employer,
                             "Summary": summary,
                             "Journeys": journeys,}
@@ -233,13 +244,12 @@ elif st.session_state.name != '':
                                   "Name": name,
                                   "Time Submitted": time, }
                 submitted = st.form_submit_button("Submit and Give Me Another!", help="Click to submit your feedback",
-                                    on_click=update_query_list, args=(queries,))
+                                    on_click=update_query_list, args=(queries, ))
                 if submitted:
                     st.markdown(f"<div class='main-content'>Thanks! Try Another!</div>", unsafe_allow_html=True)
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
                     push_to_bigquery(st.session_state.query_list.pop(), user_feedback)
-                    # st.session_state.feedback_list.append(user_feedback)
                     increment_counter()
 
 
