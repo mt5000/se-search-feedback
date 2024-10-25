@@ -163,16 +163,14 @@ elif st.session_state.name != '':
                 se = selected_row['Success Enablers']
                 success_enablers_list = str(se).split(',')
                 success_enablers = [f"{i + 1}. {item}" for i, item in enumerate(success_enablers_list)]
+                success_enablers = '\n'.join(success_enablers)
             else:
                 success_enablers = "None"
             query = selected_row['Query']
             st.markdown("**Query**:  " + query)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Success Enablers Returned**:")
-            if isinstance(success_enablers, list):
-                st.write("\n".join(success_enablers))
-            else:
-                st.write(success_enablers)
+            st.write(success_enablers)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
             st.markdown("**Employer**: " + employer)
             st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
