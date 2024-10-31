@@ -141,6 +141,9 @@ df = read_s3_file_to_dataframe()
 
 if 'selected_indices' not in st.session_state:
     st.session_state['selected_indices'] = set()
+if 'counter' not in st.session_state:
+    st.session_state['counter'] = 0
+
 # Exclude already selected rows
 remaining_indices = df.index.difference(st.session_state['selected_indices'])
 df_filtered = df.loc[remaining_indices]
@@ -149,8 +152,6 @@ if df_filtered.empty:
     st.markdown("<div class='main-content'>All rows have been reviewed!</div>", unsafe_allow_html=True)
 elif st.session_state.name != '':
     with st.form("feedback_form", clear_on_submit=True, enter_to_submit=False):
-        if 'counter' not in st.session_state:
-            st.session_state['counter'] = 0
         col1, col2 = st.columns([1, 2])
         selected_row, selected_index = get_random_row(df_filtered)
         with col1:
