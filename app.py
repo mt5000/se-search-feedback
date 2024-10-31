@@ -59,11 +59,9 @@ def update_text():
     st.session_state.name = st.session_state.name_input
 
 
-def increment_counter():
-    st.session_state['counter'] += 1
-
 def update_query_list(questions: dict):
     st.session_state.query_list.append(questions)
+    st.session_state['counter'] += 1
 
 @st.cache_data
 def read_s3_file_to_dataframe(s3_path = s3_data_path):
@@ -249,7 +247,6 @@ elif st.session_state.name != '':
                     # Add the selected index to the set of reviewed indices
                     st.session_state['selected_indices'].add(st.session_state['selected_row_index'])
                     push_to_bigquery(st.session_state.query_list.pop(), user_feedback)
-                    increment_counter()
 
 
 else:
