@@ -228,9 +228,9 @@ elif st.session_state.name != '':
                 journey_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func=format_func,
-                    key="summary_score")
+                    key="journey_score")
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
-                journey_comments = st.text_area("Enter your thoughts here", key="summary_input",
+                journey_comments = st.text_area("Enter your thoughts here", key="journey_input",
                                                 )
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
