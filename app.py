@@ -10,6 +10,7 @@ import random
 from constants import (question_1,
                        question_2,
                        question_3,
+                       question_4,
                        )
 aws_access_key = os.getenv('AWS_ACCESS_KEY')
 aws_secret_key = os.getenv('AWS_SECRET_KEY')
@@ -79,6 +80,7 @@ def push_to_bigquery(queries: dict,
                      user_feedback: dict,
                      project_id: str = "healthy-dragon-300820",
                      dataset_id: str = "success_enabler_search_feedback",
+                     table_id: str = "se_app_feedback_v2",
                      ):
     merged_list = [{**queries, **user_feedback}]
     credentials = service_account.Credentials.from_service_account_info(
@@ -86,14 +88,12 @@ def push_to_bigquery(queries: dict,
     )
     try:
         client = bigquery.Client(credentials= credentials, project=project_id)
-        table_id: str = "se_app_feedback"
         table_ref = f"{project_id}.{dataset_id}.{table_id}"
         errors = client.insert_rows_json(table_ref, merged_list)
         if errors:
             st.write(f"Errors occurred while inserting rows: {errors}")
     except Exception as e:
         st.write(e)
-
 
 
 def get_random_row(df: pd.DataFrame) -> tuple[pd.Series, int]:
@@ -222,6 +222,16 @@ elif st.session_state.name != '':
                 st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
                 summary_comments = st.text_area("Enter your thoughts here", key="summary_input",
                                              )
+                st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
+                st.markdown(question_4)
+                labels = ["Yes", "No", "Neutral"]
+                journey_rating = st.radio(
+                    "Select your answer:",
+                    options=options, format_func=format_func,
+                    key="summary_score")
+                st.markdown("<div class='thoughts-input'></div>", unsafe_allow_html=True)
+                journey_comments = st.text_area("Enter your thoughts here", key="summary_input",
+                                                )
 
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 current_datetime = datetime.now()
@@ -238,6 +248,8 @@ elif st.session_state.name != '':
                                   "Q2 Accuracy Comments": accuracy_comments,
                                   "Q3 Summary Rating": summary_rating,
                                   "Q3 Summary Comments": summary_comments,
+                                  "Q4 Journeys Rating": journey_rating,
+                                  "Q4 Journeys Comments": journey_comments,
                                   "Name": name,
                                   "Time Submitted": time, }
                 submitted = st.form_submit_button("Submit and Give Me Another!", help="Click to submit your feedback",
