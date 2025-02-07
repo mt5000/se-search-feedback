@@ -224,7 +224,7 @@ elif st.session_state.name != '':
                                              )
                 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
                 st.markdown(question_4)
-                labels = ["Yes", "No", "Neutral"]
+                labels = ["Yes", "No", "No Journeys Returned"]
                 journey_rating = st.radio(
                     "Select your answer:",
                     options=options, format_func=format_func,
